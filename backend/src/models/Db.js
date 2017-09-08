@@ -16,28 +16,89 @@ const User = Db.define('User', {
 });
 
 
-//############# contable ################
+//############# gobernación ################
 
-//Ente
-const Tercero = Db.define('Tercero', {
+//Localidad
+const Localidad = Db.define('Localidad', {
   Id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
-  TipoDeIdentificacion: Sequelize.STRING,
-  NumeroDeIdentificacion: Sequelize.STRING,
-  DigitoDeVerificacion: Sequelize.STRING,
-  PrimerApellido: Sequelize.STRING,
-  SegundoApellido: Sequelize.STRING,
-  PrimerNombre: Sequelize.STRING,
-  OtrosNombres: Sequelize.STRING,
-  RazonSocial: Sequelize.STRING,
-  Direccion: Sequelize.STRING,
-  CodigoDepartamento: Sequelize.STRING,
-  CodigoMunicipio: Sequelize.STRING,
-  PaisDeResidencia: Sequelize.STRING
+  Codigo: {type: Sequelize.STRING, unique: true},
+  Nombre: Sequelize.STRING,
+  Poblacion: Sequelize.INTEGER,
+  Altitud: Sequelize.DECIMAL,
+  Temperatura: Sequelize.DECIMAL
 },
 {
   timestamps: false,
   freezeTableName: true
 });
+
+
+//Producto
+const Producto = Db.define('Producto', {
+  Id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+  Codigo: {type: Sequelize.STRING, unique: true},
+  Nombre: Sequelize.STRING
+},
+{
+  timestamps: false,
+  freezeTableName: true
+});
+
+
+//Producto
+const Proveedor = Db.define('Proveedor', {
+  Id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+  Codigo: {type: Sequelize.STRING, unique: true},
+  Nombre: Sequelize.STRING,
+  Origen: Sequelize.STRING
+},
+{
+  timestamps: false,
+  freezeTableName: true
+});
+
+
+//Oferta
+const Oferta = Db.define('Oferta', {
+  Id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+  ProveedorId: {type: Sequelize.INTEGER, references: {model: Proveedor, key: 'Id'}},
+  ProductoId: {type: Sequelize.INTEGER, references: {model: Producto, key: 'Id'}},
+  Cantidad: Sequelize.DECIMAL,
+  Embalaje: Sequelize.DECIMAL,
+  Precio: Sequelize.DECIMAL,
+  Fecha: Sequelize.DATEONLY
+},
+{
+  timestamps: false,
+  freezeTableName: true
+});
+
+Oferta.belongsTo(Proveedor);
+Proveedor.hasMany(Oferta);
+
+Oferta.belongsTo(Producto);
+Producto.hasMany(Oferta);
+
+
+//Demanda
+const Demanda = Db.define('Demanda', {
+  Id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+  LocalidadId: {type: Sequelize.INTEGER, references: {model: Localidad, key: 'Id'}},
+  ProductoId: {type: Sequelize.INTEGER, references: {model: Producto, key: 'Id'}},
+  ConsumoPromedio: Sequelize.DECIMAL,
+  Fecha: Sequelize.DATEONLY
+},
+{
+  timestamps: false,
+  freezeTableName: true
+});
+
+Demanda.belongsTo(Localidad);
+Localidad.hasMany(Demanda);
+
+Demanda.belongsTo(Producto);
+Producto.hasMany(Demanda);
+
 
 //open connection
 Db.authenticate().then(() => {
