@@ -8,20 +8,47 @@ CREATE TABLE IF NOT EXISTS "User" (
 );
 
 /*empresa*/
-PRAGMA foreign_keys=ON;
-CREATE TABLE IF NOT EXISTS "Tercero" (
+CREATE TABLE IF NOT EXISTS "Localidad"
+(
   "Id" INTEGER PRIMARY KEY,
-  "TipoDeIdentificacion" TEXT NOT NULL,
-  "NumeroDeIdentificacion" TEXT NOT NULL,
-  "DigitoDeVerificacion" TEXT,
-  "PrimerApellido" TEXT,
-  "SegundoApellido" TEXT,
-  "PrimerNombre" TEXT,
-  "OtrosNombres" TEXT,
-  "RazonSocial" TEXT,
-  "Direccion" TEXT,
-  "CodigoDepartamento" TEXT,
-  "CodigoMunicipio" TEXT,
-  "PaisDeResidencia" TEXT,
-  UNIQUE ("TipoDeIdentificacion", "NumeroDeIdentificacion", "DigitoDeVerificacion")
+  "Codigo" TEXT UNIQUE,
+  "Nombre" TEXT,
+  "Poblacion" INTEGER,
+  "Altitud" DECIMAL,
+  "Temperatura" DECIMAL
+);
+
+CREATE TABLE IF NOT EXISTS "Producto"
+(
+  "Id" INTEGER PRIMARY KEY,
+  "Codigo" TEXT UNIQUE,
+  "Nombre" TEXT
+);
+
+CREATE TABLE IF NOT EXISTS "Proveedor"
+(
+  "Id" INTEGER PRIMARY KEY,
+  "Codigo" TEXT UNIQUE,
+  "Nombre" TEXT,
+  "Origen" TEXT
+);
+
+CREATE TABLE IF NOT EXISTS "Oferta"
+(
+  "Id" INTEGER PRIMARY KEY,
+  "ProveedorId" INTEGER DEFAULT NULL REFERENCES "Proveedor" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
+  "ProductoId" INTEGER DEFAULT NULL REFERENCES "Producto" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
+  "Cantidad" DECIMAL,
+  "Precio" DECIMAL,
+  "Embalaje" DECIMAL,
+  UNIQUE(ProveedorId, ProductoId)
+);
+
+CREATE TABLE IF NOT EXISTS "Demanda"
+(
+  "Id" INTEGER PRIMARY KEY,
+  "LocalidadId" INTEGER DEFAULT NULL REFERENCES "Localidad" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
+  "ProductoId" INTEGER DEFAULT NULL REFERENCES "Producto" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
+  "PromedioConsumo" DECIMAL,
+  UNIQUE(LocalidadId, ProductoId)
 );
