@@ -20,15 +20,28 @@ v-layout( align-center justify-center )
       v-layout(row wrap pt-3 light-blue)
         v-flex( xs12 )
           h5(class="grey--text text--lighten-4 text-xs-center bold")
-            v-icon(ma) local_offer
-            |  Producto
+            v-icon(ma) shopping_cart
+            |  Demanda
       v-card-text
         v-layout( row wrap)
           v-flex( xs12 )
-            v-text-field( label="Código" v-model="Codigo" dark )
+            v-select( v-bind:items="ItemsLocalidad"
+                      v-model="LocalidadId"
+                      label="Localidad"
+                      item-value="Id"
+                      item-text="Nombre"
+                      dark )
 
-            v-text-field( label="Nombre" v-model="Nombre" dark )
+            v-select( v-bind:items="ItemsProducto"
+                      v-model="ProductoId"
+                      label="Producto"
+                      item-value="Id"
+                      item-text="Nombre"
+                      dark )
 
+            v-text-field( label="ConsumoPromedio" v-model="ConsumoPromedio" dark )
+
+            v-text-field( label="Fecha" v-model="Fecha" dark )
 
       v-card-actions
         v-spacer

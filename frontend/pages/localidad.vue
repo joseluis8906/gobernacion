@@ -20,8 +20,8 @@ v-layout( align-center justify-center )
       v-layout(row wrap pt-3 light-blue)
         v-flex( xs12 )
           h5(class="grey--text text--lighten-4 text-xs-center bold")
-            v-icon(ma) local_offer
-            |  Producto
+            v-icon(ma) group
+            |  Localidad
       v-card-text
         v-layout( row wrap)
           v-flex( xs12 )
@@ -29,6 +29,11 @@ v-layout( align-center justify-center )
 
             v-text-field( label="Nombre" v-model="Nombre" dark )
 
+            v-text-field( label="Población" v-model="Poblacion" dark )
+
+            v-text-field( label="Altitud" v-model="Altitud" dark )
+
+            v-text-field( label="Temperatura" v-model="Temperatura" dark )
 
       v-card-actions
         v-spacer

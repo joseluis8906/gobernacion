@@ -20,55 +20,32 @@ v-layout( align-center justify-center )
       v-layout(row wrap pt-3 light-blue)
         v-flex( xs12 )
           h5(class="grey--text text--lighten-4 text-xs-center bold")
-            v-icon(ma) group
-            | Tercero
+            v-icon(ma) local_shipping
+            |  Oferta
       v-card-text
         v-layout( row wrap)
           v-flex( xs12 )
-            v-select( v-bind:items="ItemsDeIdentificacion"
-                      v-model="TipoDeIdentificacion"
-                      label="Tipo de Identificación"
-                      item-value="value"
-                      item-text="text"
+            v-select( v-bind:items="ItemsProveedor"
+                      v-model="ProvedorId"
+                      label="Proveedor"
+                      item-value="Id"
+                      item-text="Nombre"
                       dark )
 
-            v-text-field( label="Numero de Identificación" v-model="NumeroDeIdentificacion" dark )
-
-            v-text-field( label="Dígito de Verificación" v-model="DigitoDeVerificacion" dark )
-
-            v-text-field( label="Primer Apellido" v-model="PrimerApellido" dark )
-
-            v-text-field( label="Segundo Apellido" v-model="SegundoApellido" dark )
-
-            v-text-field( label="Primer Nombre" v-model="PrimerNombre" dark )
-
-            v-text-field( label="Otros Nombres" v-model="OtrosNombres" dark )
-
-            v-text-field( label="Razón Social" v-model="RazonSocial" dark )
-
-            v-text-field( label="Dirección" v-model="Direccion" dark )
-
-            v-select( v-bind:items="ItemsDepartamento"
-                      v-model="CodigoDepartamento"
-                      label="Departamento"
-                      item-value="codigo"
-                      item-text="nombre"
+            v-select( v-bind:items="ItemsProducto"
+                      v-model="ProductoId"
+                      label="Producto"
+                      item-value="Id"
+                      item-text="Nombre"
                       dark )
 
-            v-select( v-bind:items="ItemsMunicipio"
-                      v-model="CodigoMunicipio"
-                      label="Ciudad"
-                      item-value="codigo"
-                      item-text="nombre"
-                      dark )
+            v-text-field( label="Cantidad" v-model="Cantidad" dark )
 
-            v-select( v-bind:items="ItemsPais"
-                      v-model="PaisDeResidencia"
-                      label="Pais"
-                      item-value="codigo"
-                      item-text="nombre"
-                      dark )
+            v-text-field( label="Embalaje" v-model="Embalaje" dark )
 
+            v-text-field( label="Precio" v-model="Precio" dark )
+
+            v-text-field( label="Fecha" v-model="Fecha" dark )
 
       v-card-actions
         v-spacer

@@ -47,14 +47,14 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
           fixed: true
         },
         items: [
-          { icon: 'group', text: 'Tercero', to: '/tercero' },
-          //{ icon: 'delete', text: 'Producto', to: '/producto' },
-          //{ icon: 'battery_alert', text: 'Envase', to: '/envase' },
-          //{ icon: 'settings', text: 'Produccion', to: '/produccion' },
-          //{ icon: 'compare_arrows', text: 'Remisión', to: '/remision' },
+          { icon: 'group', text: 'Localidad', to: '/localidad' },
+          { icon: 'local_offer', text: 'Producto', to: '/producto' },
+          { icon: 'person', text: 'Proveedor', to: '/proveedor' },
+          { icon: 'local_shipping', text: 'Oferta', to: '/oferta' },
+          { icon: 'shopping_cart', text: 'Demanda', to: '/demanda' },
           //{ icon: 'assignment', text: 'Kardex', to: '/kardex' },
         ],
-        title: 'Administración Contable'
+        title: 'Oferta y Demanda de Productos Cesar'
       }
     },
     methods: {
