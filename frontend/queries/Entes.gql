@@ -1,0 +1,12 @@
+query Terceros {
+  Terceros {
+    Id
+    TipoDocumento
+    NumeroDocumento
+    Nombre
+    Ciudad
+    Direccion
+    Telefono
+    Relacion
+  }
+}
