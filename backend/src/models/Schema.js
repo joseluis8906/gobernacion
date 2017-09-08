@@ -7,87 +7,45 @@ import { GraphQLObjectType,
 
 import Db from './Db.js';
 
-var Tercero = new GraphQLObjectType({
-  name: "Tercero",
-  description: "Object representation of Tercero",
+var Localidad = new GraphQLObjectType({
+  name: "Localidad",
+  description: "Object representation of Localidad",
   fields: () => {
     return {
       Id: {
         type: GraphQLInt,
-        resolve(Tercero) {
-          return Tercero.Id;
+        resolve(Localidad) {
+          return Localidad.Id;
         }
       },
-      TipoDeIdentificacion: {
+      Codigo: {
         type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.TipoDeIdentificacion;
+        resolve(Localidad) {
+          return Localidad.Codigo;
         }
       },
-      NumeroDeIdentificacion: {
+      Nombre: {
         type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.NumeroDeIdentificacion;
+        resolve(Localidad) {
+          return Localidad.Nombre;
         }
       },
-      DigitoDeVerificacion: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.DigitoDeVerificacion;
+      Poblacion: {
+        type: GraphQLInt,
+        resolve(Localidad) {
+          return Localidad.Poblacion;
         }
       },
-      PrimerApellido: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.PrimerApellido;
+      Altitud: {
+        type: GraphQLFloat,
+        resolve(Localidad) {
+          return Localidad.Altitud;
         }
       },
-      SegundoApellido: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.SegundoApellido;
-        }
-      },
-      PrimerNombre: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.PrimerNombre;
-        }
-      },
-      OtrosNombres: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.OtrosNombres;
-        }
-      },
-      RazonSocial: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.RazonSocial;
-        }
-      },
-      Direccion: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.Direccion;
-        }
-      },
-      CodigoDepartamento: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.CodigoDepartamento;
-        }
-      },
-      CodigoMunicipio: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.CodigoMunicipio;
-        }
-      },
-      PaisDeResidencia: {
-        type: GraphQLString,
-        resolve(Tercero) {
-          return Tercero.PaisDeResidencia;
+      Temperatura: {
+        type: GraphQLFloat,
+        resolve(Localidad) {
+          return Localidad.Temperatura;
         }
       }
     };
@@ -95,6 +53,182 @@ var Tercero = new GraphQLObjectType({
 });
 
 
+var Producto = new GraphQLObjectType({
+  name: "Producto",
+  description: "Object representation of Producto",
+  fields: () => {
+    return {
+      Id: {
+        type: GraphQLInt,
+        resolve(Producto) {
+          return Producto.Id;
+        }
+      },
+      Codigo: {
+        type: GraphQLString,
+        resolve(Producto) {
+          return Producto.Codigo;
+        }
+      },
+      Nombre: {
+        type: GraphQLString,
+        resolve(Producto) {
+          return Producto.Nombre;
+        }
+      }
+    };
+  }
+});
+
+
+var Proveedor = new GraphQLObjectType({
+  name: "Proveedor",
+  description: "Object representation of Proveedor",
+  fields: () => {
+    return {
+      Id: {
+        type: GraphQLInt,
+        resolve(Proveedor) {
+          return Proveedor.Id;
+        }
+      },
+      Codigo: {
+        type: GraphQLString,
+        resolve(Proveedor) {
+          return Proveedor.Codigo;
+        }
+      },
+      Nombre: {
+        type: GraphQLString,
+        resolve(Proveedor) {
+          return Proveedor.Nombre;
+        }
+      },
+      Origen: {
+        type: GraphQLString,
+        resolve(Proveedor) {
+          return Proveedor.Origen;
+        }
+      }
+    };
+  }
+});
+
+
+var Oferta = new GraphQLObjectType({
+  name: "Oferta",
+  description: "Object representation of Oferta",
+  fields: () => {
+    return {
+      Id: {
+        type: GraphQLInt,
+        resolve(Oferta) {
+          return Oferta.Id;
+        }
+      },
+      ProveedorId: {
+        type: GraphQLInt,
+        resolve(Oferta) {
+          return Oferta.ProveedorId;
+        }
+      },
+      ProductoId: {
+        type: GraphQLInt,
+        resolve(Oferta) {
+          return Oferta.ProductoId;
+        }
+      },
+      Cantidad: {
+        type: GraphQLFloat,
+        resolve(Oferta) {
+          return Oferta.Cantidad;
+        }
+      },
+      Embalaje: {
+        type: GraphQLFloat,
+        resolve(Oferta) {
+          return Oferta.Embalaje;
+        }
+      },
+      Precio: {
+        type: GraphQLFloat,
+        resolve(Oferta) {
+          return Oferta.Precio;
+        }
+      },
+      Fecha: {
+        type: GraphQLString,
+        resolve(Oferta) {
+          return Oferta.Fecha;
+        }
+      },
+      Proveedor: {
+        type: Proveedor,
+        resolve(Oferta) {
+          return Oferta.getProveedor();
+        }
+      },
+      Producto: {
+        type: Producto,
+        resolve(Oferta) {
+          return Oferta.getProducto();
+        }
+      }
+    };
+  }
+});
+
+
+var Demanda = new GraphQLObjectType({
+  name: "Demanda",
+  description: "Object representation of Demanda",
+  fields: () => {
+    return {
+      Id: {
+        type: GraphQLInt,
+        resolve(Demanda) {
+          return Demanda.Id;
+        }
+      },
+      LocalidadId: {
+        type: GraphQLInt,
+        resolve(Demanda) {
+          return Demanda.LocalidadId;
+        }
+      },
+      ProductoId: {
+        type: GraphQLInt,
+        resolve(Demanda) {
+          return Demanda.ProductoId;
+        }
+      },
+      ConsumoPromedio: {
+        type: GraphQLFloat,
+        resolve(Demanda) {
+          return Demanda.ConsumoPromedio;
+        }
+      },
+      Fecha: {
+        type: GraphQLString,
+        resolve(Demanda) {
+          return Demanda.Fecha;
+        }
+      },
+      Localidad: {
+        type: Localidad,
+        resolve(Demanda) {
+          return Demanda.getLocalidad();
+        }
+      },
+      Producto: {
+        type: Producto,
+        resolve(Demanda) {
+          return Demanda.getProducto();
+        }
+      }
+    };
+  }
+});
 
 
 //Query
@@ -110,25 +244,69 @@ var Query = new GraphQLObjectType({
           return "world";
         }
       },
-      Terceros: {
-        type: new GraphQLList(Tercero),
+      Localidades: {
+        type: new GraphQLList(Localidad),
         args: {
           Id: {type: GraphQLInt},
-          TipoDeIdentificacion: {type: GraphQLString},
-          NumeroDeIdentificacion: {type: GraphQLString},
-          DigitoDeVerificacion: {type: GraphQLString},
-          PrimerApellido: {type: GraphQLString},
-          SegundoApellido: {type: GraphQLString},
-          PrimerNombre: {type: GraphQLString},
-          OtrosNombres: {type: GraphQLString},
-          RazonSocial: {type: GraphQLString},
-          Direccion: {type: GraphQLString},
-          CodigoDepartamento: {type: GraphQLString},
-          CodigoMunicipio: {type: GraphQLString},
-          PaisDeResidencia: {type: GraphQLString}
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString},
+          Poblacion: {type: GraphQLInt},
+          Altitud: {type: GraphQLFloat},
+          Temperatura: {type: GraphQLFloat}
         },
         resolve(root, args) {
-          return Db.models.Tercero.findAll({where: args});
+          return Db.models.Localidad.findAll({where: args});
+        }
+      },
+      Productos: {
+        type: new GraphQLList(Producto),
+        args: {
+          Id: {type: GraphQLInt},
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString}
+        },
+        resolve(root, args) {
+          return Db.models.Producto.findAll({where: args});
+        }
+      },
+      Proveedores: {
+        type: new GraphQLList(Proveedor),
+        args: {
+          Id: {type: GraphQLInt},
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString},
+          Origen: {type: GraphQLString}
+        },
+        resolve(root, args) {
+          return Db.models.Proveedor.findAll({where: args});
+        }
+      },
+      Ofertas: {
+        type: new GraphQLList(Oferta),
+        args: {
+          Id: {type: GraphQLInt},
+          ProveedorId: {type: GraphQLInt},
+          ProductoId: {type: GraphQLInt},
+          Cantidad: {type: GraphQLFloat},
+          Embalaje: {type: GraphQLFloat},
+          Precio: {type: GraphQLFloat},
+          Fecha: {type: GraphQLString}
+        },
+        resolve(root, args) {
+          return Db.models.Oferta.findAll({where: args});
+        }
+      },
+      Demandas: {
+        type: new GraphQLList(Demanda),
+        args: {
+          Id: {type: GraphQLInt},
+          LocalidadId: {type: GraphQLInt},
+          ProductoId: {type: GraphQLInt},
+          ConsumoPromedio: {type: GraphQLFloat},
+          Fecha: {type: GraphQLString}
+        },
+        resolve(root, args) {
+          return Db.models.Demanda.findAll({where: args});
         }
       }
     };
@@ -142,73 +320,205 @@ var Mutation = new GraphQLObjectType({
   description: "Function to create stuf",
   fields: () => {
     return {
-      CreateTercero: {
-        type: Tercero,
+      CreateLocalidad: {
+        type: Localidad,
         args: {
-          TipoDeIdentificacion: {type: GraphQLString},
-          NumeroDeIdentificacion: {type: GraphQLString},
-          DigitoDeVerificacion: {type: GraphQLString},
-          PrimerApellido: {type: GraphQLString},
-          SegundoApellido: {type: GraphQLString},
-          PrimerNombre: {type: GraphQLString},
-          OtrosNombres: {type: GraphQLString},
-          RazonSocial: {type: GraphQLString},
-          Direccion: {type: GraphQLString},
-          CodigoDepartamento: {type: GraphQLString},
-          CodigoMunicipio: {type: GraphQLString},
-          PaisDeResidencia: {type: GraphQLString}
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString},
+          Poblacion: {type: GraphQLInt},
+          Altitud: {type: GraphQLFloat},
+          Temperatura: {type: GraphQLFloat}
         },
         resolve(_, args) {
-          return Db.models.Tercero.create({
-            TipoDeIdentificacion: args.TipoDeIdentificacion,
-            NumeroDeIdentificacion: args.NumeroDeIdentificacion,
-            DigitoDeVerificacion: args.DigitoDeVerificacion,
-            PrimerApellido: args.PrimerApellido,
-            SegundoApellido: args.SegundoApellido,
-            PrimerNombre: args.PrimerNombre,
-            OtrosNombres: args.OtrosNombres,
-            RazonSocial: args.RazonSocial,
-            Direccion: args.Direccion,
-            CodigoDepartamento: args.CodigoDepartamento,
-            CodigoMunicipio: args.CodigoMunicipio,
-            PaisDeResidencia: args.PaisDeResidencia
+          return Db.models.Localidad.create({
+            Codigo: args.Codigo,
+            Nombre: args.Nombre,
+            Poblacion: args.Poblacion,
+            Altitud: args.Altitud,
+            Temperatura: args.Temperatura
           });
         }
       },
-      UpdateTercero: {
-        type: Tercero,
+      UpdateLocalidad: {
+        type: Localidad,
         args: {
           Id: {type: GraphQLInt},
-          TipoDeIdentificacion: {type: GraphQLString},
-          NumeroDeIdentificacion: {type: GraphQLString},
-          DigitoDeVerificacion: {type: GraphQLString},
-          PrimerApellido: {type: GraphQLString},
-          SegundoApellido: {type: GraphQLString},
-          PrimerNombre: {type: GraphQLString},
-          OtrosNombres: {type: GraphQLString},
-          RazonSocial: {type: GraphQLString},
-          Direccion: {type: GraphQLString},
-          CodigoDepartamento: {type: GraphQLString},
-          CodigoMunicipio: {type: GraphQLString},
-          PaisDeResidencia: {type: GraphQLString}
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString},
+          Poblacion: {type: GraphQLInt},
+          Altitud: {type: GraphQLFloat},
+          Temperatura: {type: GraphQLFloat}
         },
         resolve(_, args) {
-          return Db.models.Tercero.findOne({
+          return Db.models.Localidad.findOne({
             where: {Id: args.Id}
           }).then(R => {
             if (R !== null) {
-              R.TipoDeIdentificacion = args.TipoDeIdentificacion;
-              R.NumeroDeIdentificacion = args.NumeroDeIdentificacion;
-              R.DigitoDeVerificacion = args.DigitoDeVerificacion;
-              R.PrimerApellido = args.PrimerApellido;
-              R.SegundoApellido = args.SegundoApellido;
-              R.PrimerNombre = args.PrimerNombre;
-              R.OtrosNombres = args.OtrosNombres;
-              R.RazonSocial = args.RazonSocial;
-              R.Direccion = args.Direccion;
-              R.CodigoDepartamento = args.CodigoDepartamento;
-              R.CodigoMunicipio = args.CodigoMunicipio;
-              R.PaisDeResidencia = args.PaisDeResidencia;
+              R.Codigo = args.Codigo;
+              R.Nombre = args.Nombre;
+              R.Poblacion = args.Poblacion;
+              R.Altitud = args.Altitud;
+              R.Temperatura = args.Temperatura;
+              R.save();
+            }
+            return R;
+          });
+        }
+      },
+      CreateProducto: {
+        type: Producto,
+        args: {
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString}
+        },
+        resolve(_, args) {
+          return Db.models.Localidad.create({
+            Codigo: args.Codigo,
+            Nombre: args.Nombre
+          });
+        }
+      },
+      UpdateProducto: {
+        type: Producto,
+        args: {
+          Id: {type: GraphQLInt},
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString}
+        },
+        resolve(_, args) {
+          return Db.models.Producto.findOne({
+            where: {Id: args.Id}
+          }).then(R => {
+            if (R !== null) {
+              R.Codigo = args.Codigo;
+              R.Nombre = args.Nombre;
+              R.save();
+            }
+            return R;
+          });
+        }
+      },
+      CreateProveedor: {
+        type: Proveedor,
+        args: {
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString},
+          Origen: {type: GraphQLString}
+        },
+        resolve(_, args) {
+          return Db.models.Proveedor.create({
+            Codigo: args.Codigo,
+            Nombre: args.Nombre,
+            Origen: args.Origen,
+          });
+        }
+      },
+      UpdateProveedor: {
+        type: Proveedor,
+        args: {
+          Id: {type: GraphQLInt},
+          Codigo: {type: GraphQLString},
+          Nombre: {type: GraphQLString},
+          Origen: {type: GraphQLString}
+        },
+        resolve(_, args) {
+          return Db.models.Proveedor.findOne({
+            where: {Id: args.Id}
+          }).then(R => {
+            if (R !== null) {
+              R.Codigo = args.Codigo;
+              R.Nombre = args.Nombre;
+              R.Origen = args.Origen;
+              R.save();
+            }
+            return R;
+          });
+        }
+      },
+      CreateOferta: {
+        type: Oferta,
+        args: {
+          ProveedorId: {type: GraphQLInt},
+          ProductoId: {type: GraphQLInt},
+          Cantidad: {type: GraphQLFloat},
+          Embalaje: {type: GraphQLFloat},
+          Precio: {type: GraphQLFloat},
+          Fecha: {type: GraphQLString}
+        },
+        resolve(_, args) {
+          return Db.models.Proveedor.create({
+            ProveedorId: args.ProveedorId,
+            ProductoId: args.ProductoId,
+            Cantidad: args.Cantidad,
+            Embalaje: args.Embalaje,
+            Precio: args.Precio,
+            Fecha: args.Fecha
+          });
+        }
+      },
+      UpdateOferta: {
+        type: Oferta,
+        args: {
+          Id: {type: GraphQLInt},
+          ProveedorId: {type: GraphQLInt},
+          ProductoId: {type: GraphQLInt},
+          Cantidad: {type: GraphQLFloat},
+          Embalaje: {type: GraphQLFloat},
+          Precio: {type: GraphQLFloat},
+          Fecha: {type: GraphQLString}
+        },
+        resolve(_, args) {
+          return Db.models.Oferta.findOne({
+            where: {Id: args.Id}
+          }).then(R => {
+            if (R !== null) {
+              R.ProveedorId = args.ProveedorId;
+              R.ProductoId = args.ProductoId;
+              R.Cantidad = args.Cantidad;
+              R.Embalaje = args.Embalaje;
+              R.Precio = args.Precio;
+              R.Fecha = args.Fecha;
+              R.save();
+            }
+            return R;
+          });
+        }
+      },
+      CreateDemanda: {
+        type: Demanda,
+        args: {
+          LocalidadId: {type: GraphQLInt},
+          ProductoId: {type: GraphQLInt},
+          ConsumoPromedio: {type: GraphQLFloat},
+          Fecha: {type: GraphQLString}
+        },
+        resolve(_, args) {
+          return Db.models.Demanda.create({
+            LocalidadId: args.LocalidadId,
+            ProductoId: args.ProductoId,
+            ConsumoPromedio: args.ConsumoPromedio,
+            Fecha: args.Fecha
+          });
+        }
+      },
+      UpdateDemanda: {
+        type: Demanda,
+        args: {
+          Id: {type: GraphQLInt},
+          LocalidadId: {type: GraphQLInt},
+          ProductoId: {type: GraphQLInt},
+          ConsumoPromedio: {type: GraphQLFloat},
+          Fecha: {type: GraphQLString}
+        },
+        resolve(_, args) {
+          return Db.models.Demanda.findOne({
+            where: {Id: args.Id}
+          }).then(R => {
+            if (R !== null) {
+              R.LocalidadId = args.LocalidadId;
+              R.ProductoId = args.ProductoId;
+              R.ConsumoPromedio = args.ConsumoPromedio;
+              R.Fecha = args.Fecha;
               R.save();
             }
             return R;
