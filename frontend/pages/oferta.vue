@@ -25,15 +25,57 @@ v-layout( align-center justify-center )
       v-card-text
         v-layout( row wrap)
           v-flex( xs12 )
-            v-text-field( label="Código" v-model="Codigo" dark )
+            v-select(
+              v-bind:items="ItemsProveedor"
+              v-model="ProveedorId"
+              item-value="Id"
+              item-text="Nombre"
+              label="Proveedor"
+              single-line
+              autocomplete
+              bottom )
 
-            v-text-field( label="Nombre" v-model="Nombre" dark )
+            v-select(
+              v-bind:items="ItemsProducto"
+              v-model="ProductoId"
+              item-value="Id"
+              item-text="Nombre"
+              label="Producto"
+              single-line
+              autocomplete
+              bottom )
 
-            v-text-field( label="Población" v-model="Poblacion" dark )
+            v-menu( lazy
+                    :close-on-content-click="true"
+                    v-model="menu1"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    :nudge-left="40"
+                    max-width="290px" )
 
-            v-text-field( label="Altitud" v-model="Altitud" dark )
+              v-text-field( slot="activator"
+                            label="Fecha"
+                            v-model="Fecha"
+                            readonly )
 
-            v-text-field( label="Temperatura" v-model="Temperatura" dark )
+              v-date-picker( :months="months"
+                           :days="days"
+                           first-day-of-week="D"
+                           :header-date-format="({ monthName, year }) => { return `${monthName} ${year}` }"
+                           v-model="Fecha"
+                           no-title
+                           dark )
+                template( scope="{ save, cancel }" )
+                  v-card-actions
+                    v-btn( dark warning @click.native="Fecha=null" ) Limpiar
+
+            v-text-field( label="Cantidad" v-model="Cantidad" dark )
+
+            v-text-field( label="Embalaje" v-model="Embalaje" dark )
+
+            v-text-field( label="Precio" v-model="Precio" dark )
+
 
       v-card-actions
         v-spacer
@@ -43,9 +85,9 @@ v-layout( align-center justify-center )
 
 <script>
 
-import LOCALIDADES from '~/queries/Localidades.gql'
-import CREATE_LOCALIDAD from '~/queries/CreateLocalidad.gql'
-import UPDATE_LOCALIDAD from '~/queries/UpdateLocalidad.gql'
+import OFERTAS from '~/queries/Ofertas.gql'
+import CREATE_OFERTA from '~/queries/CreateOferta.gql'
+import UPDATE_OFERTA from '~/queries/UpdateOferta.gql'
 
 
 export default {
@@ -57,11 +99,29 @@ export default {
       text: 'Cargando'
     },
     Id: null,
-    Codigo: null,
-    Nombre: null,
-    Poblacion: null,
-    Altitud: null,
-    Temperatura: null,
+    ProveedorId: null,
+    ProductoId: null,
+    Cantidad: null,
+    Embalaje: null,
+    Precio: null,
+    Fecha: null,
+    ItemsProveedor: [],
+    ItemsProducto: [],
+    menu1: false,
+    months: [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre'],
+    days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
     loading: 0
   }),
   beforeMount () {
@@ -70,8 +130,8 @@ export default {
     }
   },
   apollo: {
-    Localidades: {
-      query: LOCALIDADES,
+    Ofertas: {
+      query: OFERTAS,
       variables () {
         return {
           Codigo: this.Codigo
@@ -80,7 +140,7 @@ export default {
       loadingKey: 'loading',
       update (data) {
         //console.log(data)
-        this.LoadUi(data.Localidades)
+        this.LoadUi(data.Ofertas)
       }
     },
   },
@@ -93,7 +153,7 @@ export default {
       }
     },
     Create () {
-      const Localidad = {
+      const Oferta = {
         Codigo: this.Codigo,
         Nombre: this.Nombre,
         Poblacion: this.Poblacion,
@@ -104,45 +164,45 @@ export default {
       this.Reset ();
 
       this.$apollo.mutate ({
-        mutation: CREATE_LOCALIDAD,
+        mutation: CREATE_OFERTA,
         variables: {
-          Codigo: Localidad.Codigo,
-          Nombre: Localidad.Nombre,
-          Poblacion: Localidad.Poblacion,
-          Altitud: Localidad.Altitud,
-          Temperatura: Localidad.Temperatura
+          Codigo: Oferta.Codigo,
+          Nombre: Oferta.Nombre,
+          Poblacion: Oferta.Poblacion,
+          Altitud: Oferta.Altitud,
+          Temperatura: Oferta.Temperatura
       },
       loadingKey: 'loading',
       update: (store, { data: res }) => {
         //console.log(Ente);
         try{
           var data = store.readQuery({
-            query: LOCALIDADES,
+            query: OFERTAS,
             variables: {
-              Codigo: res.CreateLocalidad.Codigo,
+              Codigo: res.CreateOferta.Codigo,
             }
           })
 
-          data.Localidades.push(res.CreateLocalidad)
+          data.Ofertas.push(res.CreateOferta)
 
           store.writeQuery({
-            query: LOCALIDADES,
+            query: OFERTAS,
             variables: {
-              Codigo: res.CreateLocalidad.Codigo
+              Codigo: res.CreateOferta.Codigo
             },
             data: data
           })
 
         } catch (Err) {
 
-          var data = {Localidades: []}
+          var data = {Ofertas: []}
 
-          data.Localidades.push(res.CreateLocalidad)
+          data.Ofertas.push(res.CreateOferta)
 
           store.writeQuery({
-            query: LOCALIDADES,
+            query: OFERTAS,
             variables: {
-              Codigo: res.CreateLocalidad.Codigo
+              Codigo: res.CreateOferta.Codigo
             },
             data: data
           })
@@ -157,7 +217,7 @@ export default {
       })
     },
     Update () {
-      const Localidad = {
+      const Oferta = {
         Id: this.Id,
         Codigo: this.Codigo,
         Nombre: this.Nombre,
@@ -169,54 +229,54 @@ export default {
       this.Reset ();
 
       this.$apollo.mutate ({
-        mutation: UPDATE_LOCALIDAD,
+        mutation: UPDATE_OFERTA,
         variables: {
-          Id: Localidad.Id,
-          Codigo: Localidad.Codigo,
-          Nombre: Localidad.Nombre,
-          Poblacion: Localidad.Poblacion,
-          Altitud: Localidad.Altitud,
-          Temperatura: Localidad.Temperatura
+          Id: Oferta.Id,
+          Codigo: Oferta.Codigo,
+          Nombre: Oferta.Nombre,
+          Poblacion: Oferta.Poblacion,
+          Altitud: Oferta.Altitud,
+          Temperatura: Oferta.Temperatura
         },
         loadingKey: 'loading',
         update: (store, { data: res }) => {
           //console.log(Ente);
           try {
             var data = store.readQuery({
-              query: LOCALIDADES,
+              query: OFERTAS,
               variables: {
-                Codigo: res.UpdateLocalidad.Codigo
+                Codigo: res.UpdateOferta.Codigo
               }
             })
 
-            for (let i=0; i<data.Localidades.length; i++) {
-              if (data.Localidades[i].Id === res.UpdateLocalidad.Id) {
-                data.Localidades[i].Codigo = res.UpdateLocalidad.Codigo
-                data.Localidades[i].Nombre = res.UpdateLocalidad.Nombre
-                data.Localidades[i].Poblacion = res.UpdateLocalidad.Poblacion
-                data.Localidades[i].Altitud = res.UpdateLocalidad.Altitud
-                data.Localidades[i].Temperatura = res.UpdateLocalidad.Temperatura
+            for (let i=0; i<data.Ofertas.length; i++) {
+              if (data.Ofertas[i].Id === res.UpdateOferta.Id) {
+                data.Ofertas[i].Codigo = res.UpdateOferta.Codigo
+                data.Ofertas[i].Nombre = res.UpdateOferta.Nombre
+                data.Ofertas[i].Poblacion = res.UpdateOferta.Poblacion
+                data.Ofertas[i].Altitud = res.UpdateOferta.Altitud
+                data.Ofertas[i].Temperatura = res.UpdateOferta.Temperatura
               }
             }
 
             store.writeQuery({
-              query: LOCALIDADES,
+              query: OFERTAS,
               variables: {
-                Codigo: res.UpdateLocalidad.Codigo
+                Codigo: res.UpdateOferta.Codigo
               },
               data: data
             })
 
           } catch (Err) {
 
-            var data = {Localidades: []}
+            var data = {Ofertas: []}
 
-            data.Localidades.push(res.UpdateLocalidad)
+            data.Ofertas.push(res.UpdateOferta)
 
             store.writeQuery({
-              query: LOCALIDADES,
+              query: OFERTAS,
               variables: {
-                Codigo: res.UpdateLocalidad.Codigo
+                Codigo: res.UpdateOferta.Codigo
               },
               data: data
             })
@@ -238,8 +298,8 @@ export default {
       this.Altitud = null
       this.Temperatura = null
     },
-    LoadUi (Localidades) {
-      if( Localidades.length === 0 ) {
+    LoadUi (Ofertas) {
+      if( Ofertas.length === 0 ) {
         this.Id = null
         this.Nombre = null
         this.Poblacion = null
@@ -247,14 +307,14 @@ export default {
         this.Temperatura = null
       }
 
-      for (let i=0; i<Localidades.length; i++) {
-        if ( this.Codigo === Localidades[i].Codigo ) {
-          this.Id = Localidades[i].Id
-          this.Codigo = Localidades[i].Codigo
-          this.Nombre = Localidades[i].Nombre
-          this.Poblacion = Localidades[i].Poblacion
-          this.Altitud = Localidades[i].Altitud
-          this.Temperatura = Localidades[i].Temperatura
+      for (let i=0; i<Ofertas.length; i++) {
+        if ( this.Codigo === Ofertas[i].Codigo ) {
+          this.Id = Ofertas[i].Id
+          this.Codigo = Ofertas[i].Codigo
+          this.Nombre = Ofertas[i].Nombre
+          this.Poblacion = Ofertas[i].Poblacion
+          this.Altitud = Ofertas[i].Altitud
+          this.Temperatura = Ofertas[i].Temperatura
           break
         }else{
           this.Id = null
