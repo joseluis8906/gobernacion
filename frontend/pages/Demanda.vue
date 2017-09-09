@@ -20,17 +20,17 @@ v-layout( align-center justify-center )
       v-layout(row wrap pt-3 light-blue)
         v-flex( xs12 )
           h5(class="grey--text text--lighten-4 text-xs-center bold")
-            v-icon(ma) local_shipping
-            |  Oferta
+            v-icon(ma) shopping_cart
+            |  Demanda
       v-card-text
         v-layout( row wrap)
           v-flex( xs12 )
             v-select(
-              v-bind:items="ItemsProveedor"
-              v-model="ProveedorId"
+              v-bind:items="ItemsLocalidad"
+              v-model="LocalidadId"
               item-value="Id"
               item-text="Nombre"
-              label="Proveedor"
+              label="Localidad"
               single-line
               autocomplete
               bottom )
@@ -70,11 +70,7 @@ v-layout( align-center justify-center )
                   v-card-actions
                     v-btn( dark warning @click.native="Fecha=null" ) Limpiar
 
-            v-text-field( label="Cantidad" v-model="Cantidad" dark )
-
-            v-text-field( label="Embalaje" v-model="Embalaje" dark )
-
-            v-text-field( label="Precio" v-model="Precio" dark )
+            v-text-field( label="Consumo Promedio" v-model="ConsumoPromedio" dark )
 
 
       v-card-actions
@@ -85,10 +81,10 @@ v-layout( align-center justify-center )
 
 <script>
 
-import OFERTAS from '~/queries/Ofertas.gql'
-import CREATE_OFERTA from '~/queries/CreateOferta.gql'
-import UPDATE_OFERTA from '~/queries/UpdateOferta.gql'
-import PROVEEDORES from '~/queries/Proveedores.gql'
+import DEMANDAS from '~/queries/Demandas.gql'
+import CREATE_DEMANDA from '~/queries/CreateDemanda.gql'
+import UPDATE_DEMANDA from '~/queries/UpdateDemanda.gql'
+import LOCALIDADES from '~/queries/Localidades.gql'
 import PRODUCTOS from '~/queries/Productos.gql'
 
 
@@ -101,13 +97,11 @@ export default {
       text: 'Cargando'
     },
     Id: null,
-    ProveedorId: null,
+    LocalidadId: null,
     ProductoId: null,
-    Cantidad: null,
-    Embalaje: null,
-    Precio: null,
+    ConsumoPromedio: null,
     Fecha: null,
-    ItemsProveedor: [],
+    ItemsLocalidad: [],
     ItemsProducto: [],
     menu1: false,
     months: [
@@ -132,11 +126,11 @@ export default {
     }
   },
   apollo: {
-    Ofertas: {
-      query: OFERTAS,
+    Demandas: {
+      query: DEMANDAS,
       variables () {
         return {
-          ProveedorId: this.ProveedorId,
+          LocalidadId: this.LocalidadId,
           ProductoId: this.ProductoId,
           Fecha: this.Fecha
         }
@@ -144,15 +138,15 @@ export default {
       loadingKey: 'loading',
       update (data) {
         //console.log(data)
-        this.LoadUi(data.Ofertas)
+        this.LoadUi(data.Demandas)
       }
     },
-    Proveedores: {
-      query: PROVEEDORES,
+    Localidades: {
+      query: LOCALIDADES,
       loadingKey: 'loading',
       update (data) {
         //console.log(data)
-        this.ItemsProveedor = data.Proveedores
+        this.ItemsLocalidad = data.Localidades
       }
     },
     Productos: {
@@ -173,64 +167,60 @@ export default {
       }
     },
     Create () {
-      const Oferta = {
-        ProveedorId: this.ProveedorId,
+      const Demanda = {
+        LocalidadId: this.LocalidadId,
         ProductoId: this.ProductoId,
-        Cantidad: this.Cantidad,
-        Embalaje: this.Embalaje,
-        Precio: this.Precio,
+        ConsumoPromedio: this.ConsumoPromedio,
         Fecha: this.Fecha
       };
 
       this.Reset ();
 
       this.$apollo.mutate ({
-        mutation: CREATE_OFERTA,
+        mutation: CREATE_DEMANDA,
         variables: {
-          ProveedorId: Oferta.ProveedorId,
-          ProductoId: Oferta.ProductoId,
-          Cantidad: Oferta.Cantidad,
-          Embalaje: Oferta.Embalaje,
-          Precio: Oferta.Precio,
-          Fecha: Oferta.Fecha
+          LocalidadId: Demanda.LocalidadId,
+          ProductoId: Demanda.ProductoId,
+          ConsumoPromedio: Demanda.ConsumoPromedio,
+          Fecha: Demanda.Fecha
       },
       loadingKey: 'loading',
       update: (store, { data: res }) => {
         //console.log(Ente);
         try{
           var data = store.readQuery({
-            query: OFERTAS,
+            query: DEMANDAS,
             variables: {
-              ProveedorId: res.CreateOferta.ProveedorId,
-              ProductoId: res.CreateOferta.ProductoId,
-              Fecha: res.CreateOferta.Fecha
+              LocalidadId: res.CreateDemanda.LocalidadId,
+              ProductoId: res.CreateDemanda.ProductoId,
+              Fecha: res.CreateDemanda.Fecha
             }
           })
 
-          data.Ofertas.push(res.CreateOferta)
+          data.Demandas.push(res.CreateDemanda)
 
           store.writeQuery({
-            query: OFERTAS,
+            query: DEMANDAS,
             variables: {
-              ProveedorId: res.CreateOferta.ProveedorId,
-              ProductoId: res.CreateOferta.ProductoId,
-              Fecha: res.CreateOferta.Fecha
+              LocalidadId: res.CreateDemanda.LocalidadId,
+              ProductoId: res.CreateDemanda.ProductoId,
+              Fecha: res.CreateDemanda.Fecha
             },
             data: data
           })
 
         } catch (Err) {
 
-          var data = {Ofertas: []}
+          var data = {Demandas: []}
 
-          data.Ofertas.push(res.CreateOferta)
+          data.Demandas.push(res.CreateDemanda)
 
           store.writeQuery({
-            query: OFERTAS,
+            query: DEMANDAS,
             variables: {
-              ProveedorId: res.CreateOferta.ProveedorId,
-              ProductoId: res.CreateOferta.ProductoId,
-              Fecha: res.CreateOferta.Fecha
+              LocalidadId: res.CreateDemanda.LocalidadId,
+              ProductoId: res.CreateDemanda.ProductoId,
+              Fecha: res.CreateDemanda.Fecha
             },
             data: data
           })
@@ -245,27 +235,23 @@ export default {
       })
     },
     Update () {
-      const Oferta = {
+      const Demanda = {
         Id: this.Id,
-        ProveedorId: this.ProveedorId,
+        LocalidadId: this.LocalidadId,
         ProductoId: this.ProductoId,
-        Cantidad: this.Cantidad,
-        Embalaje: this.Embalaje,
-        Precio: this.Precio,
+        ConsumoPromedio: this.ConsumoPromedio,
         Fecha: this.Fecha
       };
 
       this.Reset ();
 
       this.$apollo.mutate ({
-        mutation: UPDATE_OFERTA,
+        mutation: UPDATE_DEMANDA,
         variables: {
-          Id: Oferta.Id,
-          ProveedorId: this.ProveedorId,
+          Id: Demanda.Id,
+          LocalidadId: this.LocalidadId,
           ProductoId: this.ProductoId,
-          Cantidad: this.Cantidad,
-          Embalaje: this.Embalaje,
-          Precio: this.Precio,
+          ConsumoPromedio: this.ConsumoPromedio,
           Fecha: this.Fecha
         },
         loadingKey: 'loading',
@@ -273,47 +259,45 @@ export default {
           //console.log(Ente);
           try {
             var data = store.readQuery({
-              query: OFERTAS,
+              query: DEMANDAS,
               variables: {
-                ProveedorId: res.CreateOferta.ProveedorId,
-                ProductoId: res.CreateOferta.ProductoId,
-                Fecha: res.CreateOferta.Fecha
+                LocalidadId: res.CreateDemanda.LocalidadId,
+                ProductoId: res.CreateDemanda.ProductoId,
+                Fecha: res.CreateDemanda.Fecha
               }
             })
 
-            for (let i=0; i<data.Ofertas.length; i++) {
-              if (data.Ofertas[i].Id === res.UpdateOferta.Id) {
-                data.Ofertas[i].ProveedorId = res.UpdateOferta.ProveedorId
-                data.Ofertas[i].ProductoId = res.UpdateOferta.ProductoId
-                data.Ofertas[i].Cantidad = res.UpdateOferta.Cantidad
-                data.Ofertas[i].Embalaje = res.UpdateOferta.Embalaje
-                data.Ofertas[i].Precio = res.UpdateOferta.Precio
-                data.Ofertas[i].Fecha = res.UpdateOferta.Fecha
+            for (let i=0; i<data.Demandas.length; i++) {
+              if (data.Demandas[i].Id === res.UpdateDemanda.Id) {
+                data.Demandas[i].LocalidadId = res.UpdateDemanda.LocalidadId
+                data.Demandas[i].ProductoId = res.UpdateDemanda.ProductoId
+                data.Demandas[i].ConsumoPromedio = res.UpdateDemanda.ConsumoPromedio
+                data.Demandas[i].Fecha = res.UpdateDemanda.Fecha
               }
             }
 
             store.writeQuery({
-              query: OFERTAS,
+              query: DEMANDAS,
               variables: {
-                ProveedorId: res.CreateOferta.ProveedorId,
-                ProductoId: res.CreateOferta.ProductoId,
-                Fecha: res.CreateOferta.Fecha
+                LocalidadId: res.CreateDemanda.LocalidadId,
+                ProductoId: res.CreateDemanda.ProductoId,
+                Fecha: res.CreateDemanda.Fecha
               },
               data: data
             })
 
           } catch (Err) {
 
-            var data = {Ofertas: []}
+            var data = {Demandas: []}
 
-            data.Ofertas.push(res.UpdateOferta)
+            data.Demandas.push(res.UpdateDemanda)
 
             store.writeQuery({
-              query: OFERTAS,
+              query: DEMANDAS,
               variables: {
-                ProveedorId: res.CreateOferta.ProveedorId,
-                ProductoId: res.CreateOferta.ProductoId,
-                Fecha: res.CreateOferta.Fecha
+                LocalidadId: res.CreateDemanda.LocalidadId,
+                ProductoId: res.CreateDemanda.ProductoId,
+                Fecha: res.CreateDemanda.Fecha
               },
               data: data
             })
@@ -329,39 +313,31 @@ export default {
     },
     Reset () {
       this.Id = null
-      this.ProveedorId = null
+      this.LocalidadId = null
       this.ProductoId = null
-      this.Cantidad = null
-      this.Embalaje = null
-      this.Precio = null
+      this.ConsumoPromedio = null
       this.Fecha = null
     },
-    LoadUi (Ofertas) {
-      if( Ofertas.length === 0 ) {
+    LoadUi (Demandas) {
+      if( Demandas.length === 0 ) {
         this.Id = null
-        this.Cantidad = null
-        this.Embalaje = null
-        this.Precio = null
+        this.ConsumoPromedio = null
       }
 
-      for (let i=0; i<Ofertas.length; i++) {
+      for (let i=0; i<Demandas.length; i++) {
         if (
-          this.ProveedorId === Ofertas[i].ProveedorId
+          this.LocalidadId === Demandas[i].LocalidadId
           &&
-          this.ProductoId === Ofertas[i].ProductoId
+          this.ProductoId === Demandas[i].ProductoId
           &&
-          this.Fecha === Ofertas[i].Fecha
+          this.Fecha === Demandas[i].Fecha
         ) {
-          this.Id = Ofertas[i].Id
-          this.Cantidad = Ofertas[i].Cantidad
-          this.Embalaje = Ofertas[i].Embalaje
-          this.Precio = Ofertas[i].Precio
+          this.Id = Demandas[i].Id
+          this.ConsumoPromedio = Demandas[i].ConsumoPromedio
           break
         }else{
           this.Id = null
-          this.Cantidad = null
-          this.Embalaje = null
-          this.Precio = null
+          this.ConsumoPromedio = null
         }
       }
 

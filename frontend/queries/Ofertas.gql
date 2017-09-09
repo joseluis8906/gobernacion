@@ -2,10 +2,10 @@ query Ofertas (
   $Id: Int,
   $ProveedorId: Int,
   $ProductoId: Int,
-  $Cantidad: String,
-  $Embalaje: Int,
+  $Cantidad: Float,
+  $Embalaje: Float,
   $Precio: Float,
-  $Fecha: Float
+  $Fecha: String
 ){
   Ofertas (
     Id: $Id,
