@@ -80,7 +80,7 @@ export default {
       loadingKey: 'loading',
       update (data) {
         //console.log(data)
-        this.LoadLocalidad(data.Localidades)
+        this.LoadUi(data.Localidades)
       }
     },
   },
@@ -238,7 +238,7 @@ export default {
       this.Altitud = null
       this.Temperatura = null
     },
-    LoadLocalidad (Localidades) {
+    LoadUi (Localidades) {
       if( Localidades.length === 0 ) {
         this.Id = null
         this.Nombre = null

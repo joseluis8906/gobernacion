@@ -372,7 +372,7 @@ var Mutation = new GraphQLObjectType({
           Nombre: {type: GraphQLString}
         },
         resolve(_, args) {
-          return Db.models.Localidad.create({
+          return Db.models.Producto.create({
             Codigo: args.Codigo,
             Nombre: args.Nombre
           });
@@ -446,7 +446,7 @@ var Mutation = new GraphQLObjectType({
           Fecha: {type: GraphQLString}
         },
         resolve(_, args) {
-          return Db.models.Proveedor.create({
+          return Db.models.Oferta.create({
             ProveedorId: args.ProveedorId,
             ProductoId: args.ProductoId,
             Cantidad: args.Cantidad,

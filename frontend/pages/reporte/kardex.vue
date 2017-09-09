@@ -20,7 +20,7 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
         tr
           td(class="lado") Fecha
           td(class="lado") {{ Fecha }}
-            
+
     table(style="width: 100%; height: auto" class="table-kardex" )
       thead
         tr(class="green lighten-3")
@@ -66,7 +66,7 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
 
 <script>
 
-import KARDEXS from '~/queries/Kardexs.gql'
+//import KARDEXS from '~/queries/Kardexs.gql'
 import { mapMutations } from 'vuex'
 
 export default {
@@ -136,7 +136,7 @@ export default {
             }
             this.items.push(tmp)
           }
-          
+
         }
         if (this.items.length < 34) {
           for (let k=this.items.length; k<=34; k++) {

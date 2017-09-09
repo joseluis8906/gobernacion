@@ -1,13 +1,15 @@
-mutation UpdateProducto ( 
-  $Nombre: String!, 
-  $UnidadDeMedida: String,
-) {
+mutation UpdateProducto (
+  $Id: Int,
+  $Codigo: String,
+  $Nombre: String,
+){
   UpdateProducto (
+    Id: $Id,
+    Codigo: $Codigo,
     Nombre: $Nombre,
-    UnidadDeMedida: $UnidadDeMedida
-  ){
+  ) {
     Id
+    Codigo
     Nombre
-    UnidadDeMedida
   }
 }

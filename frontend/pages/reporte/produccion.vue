@@ -20,7 +20,7 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
         tr
           td(class="lado") Fecha
           td(class="lado") {{ Fecha }}
-          
+
     table(style="width: 49%; height: auto; display: inline-block; vertical-align: top;" class="table-kardex" )
       tbody
         tr
@@ -41,7 +41,7 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
         tr
           td(style="text-align: left") Fecha Final:
           td(style="text-align: right") {{ FechaFinal }}
-        
+
     table(style="width: 49%; margin-left: 2%; height: auto; display: inline-block;" class="table-kardex" )
       tbody
         tr
@@ -65,7 +65,7 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
         tr
           td(style="text-align: left") Hora Final:
           td(style="text-align: right") {{ HoraFinal }}
-    
+
     table(style="width: 49%; height: auto; display: inline-block;" class="table-kardex" )
       thead
         tr(class="green lighten-3")
@@ -73,14 +73,14 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
           th(style="width: 12%") Producto
           th(style="width: 6%") Número
           th(style="width: 16%") Cliente
-          
+
       tbody
         tr(v-for="(item, j) in items1" :key="j")
           td(style="text-align: right") {{ item.Envase.Capacidad }}
           td(style="text-align: center") {{ item.Producto.Nombre }}
           td(style="text-align: center") {{ item.Envase.Numero }}
           td(style="text-align: center") {{ item.Cliente.Nombre }}
-          
+
     table(style="width: 49%; margin-left: 2%; height: auto; display: inline-block;")
       thead
         tr(class="green lighten-3")
@@ -88,17 +88,17 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
           th(style="width: 12%") Producto
           th(style="width: 6%") Número
           th(style="width: 16%") Cliente
-          
+
       tbody
         tr(v-for="(item, k) in items2" :key="k")
           td(style="text-align: right") {{ item.Envase.Capacidad }}
           td(style="text-align: center") {{ item.Producto.Nombre }}
           td(style="text-align: center") {{ item.Envase.Numero }}
           td(style="text-align: center") {{ item.Cliente.Nombre }}
-          
+
     div(style="width: 49%; height:40mm; margin-top: 3mm; display: inline-block; vertical-align: top;")
       h6(class="headlines") Observación: {{ Observacion }}
-      
+
     table(style="width: 25%; height: auto; display:inline-block; margin-top: 15mm; margin-left: 25%;")
       tbody
         tr
@@ -107,11 +107,11 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
         tr
           td(style="text-align: left") Presión Final:
           td(style="text-align: right") {{ PresionFinal }}
-          
+
     div(style="width: 49%; height:40mm; margin-top: 5mm; display: inline-block; vertical-align: top;")
       h6(class="body-2") Elaboró ___________________________________
       p(class="body-2") Jefe de Producción y Mantenimiento
-      
+
     div(style="width: 49%; margin-left: 2%; height:40mm; margin-top: 5mm; display: inline-block; vertical-align: top;")
       h6(class="body-2") Revisó ____________________________________
       p(class="body-2") Dirección Técnica y Jefe de Control de Calidad
@@ -119,7 +119,7 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
 
 <script>
 
-import PRODUCCIONS from '~/queries/Produccions.gql'
+//import PRODUCCIONS from '~/queries/Produccions.gql'
 import { mapMutations } from 'vuex'
 
 export default {
@@ -144,7 +144,7 @@ export default {
       PurezaFinal: null,
       PresionFinal: null,
       Observacion: null,
-      
+
       items1: [],
       items2: [],
       loading: 0
@@ -184,13 +184,13 @@ export default {
           this.PurezaFinal = data.Produccions[0].PurezaFinal
           this.PresionFinal = data.Produccions[0].PresionFinal
           this.Observacion = data.Produccions[0].Observacion
-          
+
           this.items1 = []
           this.Cantidad = 0
           this.CantidadM3 = 0.0
           this.UnidadDeMedida = data.Produccions[0].Producto.UnidadDeMedida
           var length = data.Produccions.length;
-          
+
           for ( let i=0; i<=21; i++ ) {
             if( i < length ) {
               var tmp = {
@@ -210,10 +210,10 @@ export default {
                 },
                 Cantidad: data.Produccions[i].Cantidad,
               }
-              
+
               this.Cantidad++
               this.CantidadM3 += data.Produccions[i].Cantidad
-              
+
             } else {
               var tmp = {
                 Producto: {
@@ -233,12 +233,12 @@ export default {
                 Cantidad: null
               }
             }
-            
+
             this.items1.push(tmp)
           }
-          
+
           this.items2 = []
-          
+
           for ( let i=21; i<43; i++ ) {
             if( i < length ) {
               var tmp = {
@@ -258,10 +258,10 @@ export default {
                 },
                 Cantidad: data.Produccions[i-21].Cantidad,
               }
-              
+
               this.Cantidad++
               this.CantidadM3 += data.Produccions[i].Cantidad
-              
+
             } else {
               var tmp = {
                 Producto: {
@@ -281,11 +281,11 @@ export default {
                 Cantidad: null
               }
             }
-            
+
             this.items2.push(tmp)
           }
-          
-        } 
+
+        }
       }
     }
   }
@@ -322,5 +322,5 @@ td
   padding-left 1mm
   padding-right 1mm
   text-align right
-  
+
 </style>

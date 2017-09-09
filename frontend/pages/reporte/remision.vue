@@ -15,17 +15,17 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
           td(style="text-align: center") {{ Fecha.AAAA }}
           td(style="text-align: center") {{ Fecha.MM }}
           td(style="text-align: center") {{ Fecha.DD }}
-          
+
     table(style="width: 100%; height: auto; margin-bottom: 3mm")
       thead
       tbody
         tr
           td(style="width: 70%") Cliente: {{ Cliente.Nombre }}
           td(style="width: 30%") Nit: {{ Cliente.NumeroDocumento }}
-        tr 
+        tr
           td Dirección: {{ Cliente.Direccion }}
           td Teléfono: {{ Cliente.Telefono }}
-            
+
     table(style="width: 100%; height: auto" class="table-kardex" )
       thead
         tr(class="green lighten-3")
@@ -51,15 +51,15 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
           td(style="text-align: center") {{ item.Produccion.FechaVencimiento }}
           td(style="text-align: center") {{ item.Produccion.Lote }}
           template(v-if="item.Total")
-            td(style="text-align: right") $ {{ item.Total }} 
+            td(style="text-align: right") $ {{ item.Total }}
           template(v-else)
-            td(style="text-align: right") {{ item.Total }} 
-    
+            td(style="text-align: right") {{ item.Total }}
+
     table(style="width: 100%; height: 18mm; margin-top: 2mm; border-spacing: 1mm 0mm; border-collapse: separate")
       thead
       tbody
         tr
-          td(colspan="2" style="border:none;") Nota: Los cilindros aquí relacionados son propiedad de Gases Industriales de los Santanderes S.A.S. 
+          td(colspan="2" style="border:none;") Nota: Los cilindros aquí relacionados son propiedad de Gases Industriales de los Santanderes S.A.S.
              | en caso de extravio o perdida se cobrará el valor del cilindro en la actualidad.
         tr
           td(rowspan="2" style="width:50%; vertical-align: top") Firma Vendedor
@@ -71,7 +71,7 @@ v-container(pt-0 pr-0 pb-0 pl-0 mt-0 mb-0)
 <script>
 
 import { mapMutations } from 'vuex'
-import REMISIONS from '~/queries/Remisions.gql'
+//import REMISIONS from '~/queries/Remisions.gql'
 
 
 export default {
@@ -116,18 +116,18 @@ export default {
       loadingKey: "loading",
       update (data) {
         //console.log(data)
-        
+
         if (data.Remisions.length > 0) {
-          
+
           this.Fecha.AAAA = data.Remisions[0].Fecha.split('-')[0]
           this.Fecha.MM = data.Remisions[0].Fecha.split('-')[1]
           this.Fecha.DD = data.Remisions[0].Fecha.split('-')[2]
           this.Cliente = data.Remisions[0].Ente
-          
+
           this.items = []
-          
+
           for (let i=0; i<data.Remisions.length; i++) {
-            
+
             let tmp = {
               Produccion: {
                 Cantidad: data.Remisions[i].Produccion.Cantidad,
@@ -147,14 +147,14 @@ export default {
               },
               Total: data.Remisions[i].Total
             }
-            
+
             this.items.push(tmp)
-            
+
           }
-          
+
           if (this.items.length<12) {
             this.pages[0] = {Size: 'MidLetter', Layout: 'Landscape'}
-            
+
             for (let i=this.items.length; i<12; i++)
             {
               let tmp = {
@@ -176,15 +176,15 @@ export default {
                 },
                 Total: null
               }
-              
+
               this.items.push(tmp)
-              
+
             }
-            
+
             console.log(this.items)
-            
+
           } else if (this.items.length>=12 && this.items.length<40) {
-            
+
             for (let i=this.items.length; i<40; i++)
             {
               let tmp = {
@@ -206,18 +206,18 @@ export default {
                 },
                 Total: null
               }
-              
+
               this.items.push(tmp)
-              
+
             }
-            
+
           }
-            
-          
+
+
         } else {
-          
+
           console.log('error')
-          
+
         }
       }
     }
