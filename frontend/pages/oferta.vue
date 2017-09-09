@@ -25,27 +25,15 @@ v-layout( align-center justify-center )
       v-card-text
         v-layout( row wrap)
           v-flex( xs12 )
-            v-select( v-bind:items="ItemsProveedor"
-                      v-model="ProvedorId"
-                      label="Proveedor"
-                      item-value="Id"
-                      item-text="Nombre"
-                      dark )
+            v-text-field( label="Código" v-model="Codigo" dark )
 
-            v-select( v-bind:items="ItemsProducto"
-                      v-model="ProductoId"
-                      label="Producto"
-                      item-value="Id"
-                      item-text="Nombre"
-                      dark )
+            v-text-field( label="Nombre" v-model="Nombre" dark )
 
-            v-text-field( label="Cantidad" v-model="Cantidad" dark )
+            v-text-field( label="Población" v-model="Poblacion" dark )
 
-            v-text-field( label="Embalaje" v-model="Embalaje" dark )
+            v-text-field( label="Altitud" v-model="Altitud" dark )
 
-            v-text-field( label="Precio" v-model="Precio" dark )
-
-            v-text-field( label="Fecha" v-model="Fecha" dark )
+            v-text-field( label="Temperatura" v-model="Temperatura" dark )
 
       v-card-actions
         v-spacer
@@ -55,9 +43,9 @@ v-layout( align-center justify-center )
 
 <script>
 
-import TERCEROS from '~/queries/Terceros.gql'
-import CREATE_TERCERO from '~/queries/CreateTercero.gql'
-import UPDATE_TERCERO from '~/queries/UpdateTercero.gql'
+import LOCALIDADES from '~/queries/Localidades.gql'
+import CREATE_LOCALIDAD from '~/queries/CreateLocalidad.gql'
+import UPDATE_LOCALIDAD from '~/queries/UpdateLocalidad.gql'
 
 
 export default {
@@ -69,38 +57,11 @@ export default {
       text: 'Cargando'
     },
     Id: null,
-    TipoDeIdentificacion: null,
-    NumeroDeIdentificacion: null,
-    DigitoDeVerificacion: null,
-    PrimerApellido: null,
-    SegundoApellido: null,
-    PrimerNombre: null,
-    OtrosNombres: null,
-    RazonSocial: null,
-    Direccion: null,
-    CodigoDepartamento: null,
-    CodigoMunicipio: null,
-    PaisDeResidencia: null,
-    ItemsDeIdentificacion: [
-      {text: 'Cédula de ciudadanía', value: '13'},
-      {text: 'Tarjeta de extranjería', value: '21'},
-      {text: 'Cédula de extranjería', value: '22'},
-      {text: 'Nit', value: '31'},
-      {text: 'Identificación de extranjeros diferente al Nit asignado DIAN', value: '33'},
-      {text: 'Pasaporte', value: '41'},
-      {text: 'Documento de identificación extranjero', value: '42'},
-      {text: 'Sin identificación del exterior o para uso definido por la DIAN', value: '43'},
-    ],
-    ItemsDepartamento: [
-      {nombre: 'Cesar', codigo: '20'},
-    ],
-    ItemsMunicipio: [
-      {codigo: '20011', nombre: 'Aguachica'},
-      {codigo: '20295', nombre: 'Gamarra'}
-    ],
-    ItemsPais: [
-      {codigo: '169', nombre: 'Colombia'},
-    ],
+    Codigo: null,
+    Nombre: null,
+    Poblacion: null,
+    Altitud: null,
+    Temperatura: null,
     loading: 0
   }),
   beforeMount () {
@@ -109,19 +70,17 @@ export default {
     }
   },
   apollo: {
-    Terceros: {
-      query: TERCEROS,
+    Localidades: {
+      query: LOCALIDADES,
       variables () {
         return {
-          TipoDeIdentificacion: this.TipoDeIdentificacion,
-          NumeroDeIdentificacion: this.NumeroDeIdentificacion,
-          DigitoDeVerificacion: this.DigitoDeVerificacion
+          Codigo: this.Codigo
         }
       },
       loadingKey: 'loading',
       update (data) {
         //console.log(data)
-        this.LoadTercero(data.Terceros)
+        this.LoadUi(data.Localidades)
       }
     },
   },
@@ -134,77 +93,56 @@ export default {
       }
     },
     Create () {
-      const Tercero = {
-        TipoDeIdentificacion: this.TipoDeIdentificacion,
-        NumeroDeIdentificacion: this.NumeroDeIdentificacion,
-        DigitoDeVerificacion: this.DigitoDeVerificacion,
-        PrimerApellido: this.PrimerApellido,
-        SegundoApellido: this.SegundoApellido,
-        PrimerNombre: this.PrimerNombre,
-        OtrosNombres: this.OtrosNombres,
-        RazonSocial: this.RazonSocial,
-        Direccion: this.Direccion,
-        CodigoDepartamento: this.CodigoDepartamento,
-        CodigoMunicipio: this.CodigoMunicipio,
-        PaisDeResidencia: this.PaisDeResidencia
+      const Localidad = {
+        Codigo: this.Codigo,
+        Nombre: this.Nombre,
+        Poblacion: this.Poblacion,
+        Altitud: this.Altitud,
+        Temperatura: this.Temperatura
       };
 
       this.Reset ();
 
       this.$apollo.mutate ({
-        mutation: CREATE_TERCERO,
+        mutation: CREATE_LOCALIDAD,
         variables: {
-          TipoDeIdentificacion: Tercero.TipoDeIdentificacion,
-          NumeroDeIdentificacion: Tercero.NumeroDeIdentificacion,
-          DigitoDeVerificacion: Tercero.DigitoDeVerificacion,
-          PrimerApellido: Tercero.PrimerApellido,
-          SegundoApellido: Tercero.SegundoApellido,
-          PrimerNombre: Tercero.PrimerNombre,
-          OtrosNombres: Tercero.OtrosNombres,
-          RazonSocial: Tercero.RazonSocial,
-          Direccion: Tercero.Direccion,
-          CodigoDepartamento: Tercero.CodigoDepartamento,
-          CodigoMunicipio: Tercero.CodigoMunicipio,
-          PaisDeResidencia: Tercero.PaisDeResidencia
+          Codigo: Localidad.Codigo,
+          Nombre: Localidad.Nombre,
+          Poblacion: Localidad.Poblacion,
+          Altitud: Localidad.Altitud,
+          Temperatura: Localidad.Temperatura
       },
       loadingKey: 'loading',
       update: (store, { data: res }) => {
         //console.log(Ente);
         try{
           var data = store.readQuery({
-            query: TERCEROS,
+            query: LOCALIDADES,
             variables: {
-              TipoDeIdentificacion: res.CreteTercero.TipoDeIdentificacion,
-              NumeroDeIdentificacion: res.CreateTercero.NumeroDeIdentificacion,
-              DigitoDeVerificacion: res.CreateTercero.DigitoDeVerificacion
+              Codigo: res.CreateLocalidad.Codigo,
             }
           })
 
-          console.log(data)
-          data.Terceros.push(res.CreateTercero)
+          data.Localidades.push(res.CreateLocalidad)
 
           store.writeQuery({
-            query: TERCEROS,
+            query: LOCALIDADES,
             variables: {
-              TipoDeIdentificacion: res.CreateTercero.TipoDeIdentificacion,
-              NumeroDeIdentificacion: res.CreateTercero.NumeroDeIdentificacion,
-              DigitoDeVerificacion: res.CreateTercero.DigitoDeVerificacion
+              Codigo: res.CreateLocalidad.Codigo
             },
             data: data
           })
 
         } catch (Err) {
 
-          var data = {Terceros: []}
+          var data = {Localidades: []}
 
-          data.Terceros.push(res.CreateTercero)
+          data.Localidades.push(res.CreateLocalidad)
 
           store.writeQuery({
-            query: TERCEROS,
+            query: LOCALIDADES,
             variables: {
-              TipoDeIdentificacion: res.CreateTercero.TipoDeIdentificacion,
-              NumeroDeIdentificacion: res.CreateTercero.NumeroDeIdentificacion,
-              DigitoDeVerificacion: res.CreateTercero.DigitoDeVerificacion
+              Codigo: res.CreateLocalidad.Codigo
             },
             data: data
           })
@@ -219,93 +157,66 @@ export default {
       })
     },
     Update () {
-      const Tercero = {
+      const Localidad = {
         Id: this.Id,
-        TipoDeIdentificacion: this.TipoDeIdentificacion,
-        NumeroDeIdentificacion: this.NumeroDeIdentificacion,
-        DigitoDeVerificacion: this.DigitoDeVerificacion,
-        PrimerApellido: this.PrimerApellido,
-        SegundoApellido: this.SegundoApellido,
-        PrimerNombre: this.PrimerNombre,
-        OtrosNombres: this.OtrosNombres,
-        RazonSocial: this.RazonSocial,
-        Direccion: this.Direccion,
-        CodigoDepartamento: this.CodigoDepartamento,
-        CodigoMunicipio: this.CodigoMunicipio,
-        PaisDeResidencia: this.PaisDeResidencia
+        Codigo: this.Codigo,
+        Nombre: this.Nombre,
+        Poblacion: this.Poblacion,
+        Altitud: this.Altitud,
+        Temperatura: this.Temperatura
       };
 
       this.Reset ();
 
       this.$apollo.mutate ({
-        mutation: UPDATE_TERCERO,
+        mutation: UPDATE_LOCALIDAD,
         variables: {
-          Id: Tercero.Id,
-          TipoDeIdentificacion: Tercero.TipoDeIdentificacion,
-          NumeroDeIdentificacion: Tercero.NumeroDeIdentificacion,
-          DigitoDeVerificacion: Tercero.DigitoDeVerificacion,
-          PrimerApellido: Tercero.PrimerApellido,
-          SegundoApellido: Tercero.SegundoApellido,
-          PrimerNombre: Tercero.PrimerNombre,
-          OtrosNombres: Tercero.OtrosNombres,
-          RazonSocial: Tercero.RazonSocial,
-          Direccion: Tercero.Direccion,
-          CodigoDepartamento: Tercero.CodigoDepartamento,
-          CodigoMunicipio: Tercero.CodigoMunicipio,
-          PaisDeResidencia: Tercero.PaisDeResidencia
+          Id: Localidad.Id,
+          Codigo: Localidad.Codigo,
+          Nombre: Localidad.Nombre,
+          Poblacion: Localidad.Poblacion,
+          Altitud: Localidad.Altitud,
+          Temperatura: Localidad.Temperatura
         },
         loadingKey: 'loading',
         update: (store, { data: res }) => {
           //console.log(Ente);
           try {
             var data = store.readQuery({
-              query: TERCEROS,
+              query: LOCALIDADES,
               variables: {
-                TipoDeIdentificacion: res.UpdateTercero.TipoDeIdentificacion,
-                NumeroDeIdentificacion: res.UpdateTercero.NumeroDeIdentificacion,
-                DigitoDeVerificacion: res.UpdateTercero.DigitoDeVerificacion
+                Codigo: res.UpdateLocalidad.Codigo
               }
             })
 
-            for (let i=0; i<data.Terceros.length; i++) {
-              if (data.Terceros[i].Id === res.UpdateTercero.Id) {
-                data.Terceros[i].TipoDeIdentificacion = res.UpdateTercero.TipoDeIdentificacion
-                data.Terceros[i].NumeroDeIdentificacion = res.UpdateTercero.NumeroDeIdentificacion
-                data.Terceros[i].DigitoDeVerificacion = res.UpdateTercero.DigitoDeVerificacion
-                data.Terceros[i].PrimerApellido = res.UpdateTercero.PrimerApellido
-                data.Terceros[i].SegundoApellido = res.UpdateTercero.SegundoApellido
-                data.Terceros[i].PrimerNombre = res.UpdateTercero.PrimerNombre
-                data.Terceros[i].OtrosNombres = res.UpdateTercero.OtrosNombres
-                data.Terceros[i].RazonSocial = res.UpdateTercero.RazonSocial
-                data.Terceros[i].Direccion = res.UpdateTercero.Direccion
-                data.Terceros[i].CodigoDepartamento = res.UpdateTercero.CodigoDepartamento
-                data.Terceros[i].CodigoMunicipio = res.UpdateTercero.CodigoMunicipio
-                data.Terceros[i].PaisDeResidencia = res.UpdateTercero.PaisDeResidencia
+            for (let i=0; i<data.Localidades.length; i++) {
+              if (data.Localidades[i].Id === res.UpdateLocalidad.Id) {
+                data.Localidades[i].Codigo = res.UpdateLocalidad.Codigo
+                data.Localidades[i].Nombre = res.UpdateLocalidad.Nombre
+                data.Localidades[i].Poblacion = res.UpdateLocalidad.Poblacion
+                data.Localidades[i].Altitud = res.UpdateLocalidad.Altitud
+                data.Localidades[i].Temperatura = res.UpdateLocalidad.Temperatura
               }
             }
 
             store.writeQuery({
-              query: TERCEROS,
+              query: LOCALIDADES,
               variables: {
-                TipoDeIdentificacion: res.UpdateTercero.TipoDeIdentificacion,
-                NumeroDeIdentificacion: res.UpdateTercero.NumeroDeIdentificacion,
-                DigitoDeVerificacion: res.UpdateTercero.DigitoDeVerificacion
+                Codigo: res.UpdateLocalidad.Codigo
               },
               data: data
             })
 
           } catch (Err) {
 
-            var data = {Terceros: []}
+            var data = {Localidades: []}
 
-            data.Terceros.push(res.UpdateTercero)
+            data.Localidades.push(res.UpdateLocalidad)
 
             store.writeQuery({
-              query: TERCEROS,
+              query: LOCALIDADES,
               variables: {
-                TipoDeIdentificacion: res.UpdateTercero.TipoDeIdentificacion,
-                NumeroDeIdentificacion: res.UpdateTercero.NumeroDeIdentificacion,
-                DigitoDeVerificacion: res.UpdateTercero.DigitoDeVerificacion
+                Codigo: res.UpdateLocalidad.Codigo
               },
               data: data
             })
@@ -321,51 +232,36 @@ export default {
     },
     Reset () {
       this.Id = null
-      this.TipoDeIdentificacion = null
-      this.NumeroDeIdentificacion = null
-      this.DigitoDeVerificacion = null
-      this.PrimerApellido = null
-      this.SegundoApellido = null
-      this.PrimerNombre = null
-      this.OtrosNombres = null
-      this.RazonSocial = null
-      this.Direccion = null
-      this.CodigoDepartamento = null
-      this.CodigoMunicipio = null
-      this.PaisDeResidencia = null
+      this.Codigo = null
+      this.Nombre = null
+      this.Poblacion = null
+      this.Altitud = null
+      this.Temperatura = null
     },
-    LoadTercero (Terceros) {
-      console.log (Terceros)
-      for (let i=0; i<Terceros.length; i++) {
-        if (
-          this.TipoDeIdentificacion === Terceros[i].TipoDeIdentificacion
-          &&
-          this.NumeroDeIdentificacion === Terceros[i].NumeroDeIdentificacion
-          &&
-          this.DigitoDeVerificacion === Terceros[i].DigitoDeVerificacion
-        ) {
-          this.Id = Terceros[i].Id
-          this.PrimerApellido = Terceros[i].PrimerApellido
-          this.SegundoApellido = Terceros[i].SegundoApellido
-          this.PrimerNombre = Terceros[i].PrimerNombre
-          this.OtrosNombres = Terceros[i].OtrosNombres
-          this.RazonSocial = Terceros[i].RazonSocial
-          this.Direccion = Terceros[i].Direccion
-          this.CodigoDepartamento = Terceros[i].CodigoDepartamento
-          this.CodigoMunicipio = Terceros[i].CodigoMunicipio
-          this.PaisDeResidencia = Terceros[i].PaisDeResidencia
+    LoadUi (Localidades) {
+      if( Localidades.length === 0 ) {
+        this.Id = null
+        this.Nombre = null
+        this.Poblacion = null
+        this.Altitud = null
+        this.Temperatura = null
+      }
+
+      for (let i=0; i<Localidades.length; i++) {
+        if ( this.Codigo === Localidades[i].Codigo ) {
+          this.Id = Localidades[i].Id
+          this.Codigo = Localidades[i].Codigo
+          this.Nombre = Localidades[i].Nombre
+          this.Poblacion = Localidades[i].Poblacion
+          this.Altitud = Localidades[i].Altitud
+          this.Temperatura = Localidades[i].Temperatura
           break
         }else{
           this.Id = null
-          this.PrimerApellido = null
-          this.SegundoApellido = null
-          this.PrimerNombre = null
-          this.OtrosNombres = null
-          this.RazonSocial = null
-          this.Direccion = null
-          this.CodigoDepartamento = null
-          this.CodigoMunicipio = null
-          this.PaisDeResidencia = null
+          this.Nombre = null
+          this.Poblacion = null
+          this.Altitud = null
+          this.Temperatura = null
         }
       }
 
