@@ -1,0 +1,25 @@
+mutation CreateOferta (
+  $ProveedorId: Int,
+  $ProductoId: Int,
+  $Cantidad: String,
+  $Embalaje: Int,
+  $Precio: Float,
+  $Fecha: Float
+){
+  CreateOferta (
+    ProveedorId: $ProveedorId,
+    ProductoId: $ProductoId,
+    Cantidad: $Cantidad,
+    Embalaje: $Embalaje,
+    Precio: $Precio,
+    Fecha: $Fecha
+  ) {
+    Id
+    ProveedorId
+    ProductoId
+    Cantidad
+    Embalaje
+    Precio
+    Fecha
+  }
+}

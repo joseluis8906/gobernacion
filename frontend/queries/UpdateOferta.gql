@@ -1,0 +1,25 @@
+mutation UpdateOferta (
+  $ProveedorId: Int,
+  $ProductoId: Int,
+  $Cantidad: String,
+  $Embalaje: Int,
+  $Precio: Float,
+  $Fecha: Float
+){
+  UpdateOferta (
+    ProveedorId: $ProveedorId,
+    ProductoId: $ProductoId,
+    Cantidad: $Cantidad,
+    Embalaje: $Embalaje,
+    Precio: $Precio,
+    Fecha: $Fecha
+  ) {
+    Id
+    ProveedorId
+    ProductoId
+    Cantidad
+    Embalaje
+    Precio
+    Fecha
+  }
+}
