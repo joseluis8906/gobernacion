@@ -1,4 +1,5 @@
 mutation UpdateOferta (
+  $Id: Int,
   $ProveedorId: Int,
   $ProductoId: Int,
   $Cantidad: String,
@@ -7,6 +8,7 @@ mutation UpdateOferta (
   $Fecha: Float
 ){
   UpdateOferta (
+    Id: $Id,
     ProveedorId: $ProveedorId,
     ProductoId: $ProductoId,
     Cantidad: $Cantidad,
