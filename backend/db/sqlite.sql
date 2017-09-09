@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS "Oferta"
   "Embalaje" DECIMAL,
   "Precio" DECIMAL,
   "Fecha" DATE,
-  UNIQUE(ProveedorId, ProductoId)
+  UNIQUE(ProveedorId, ProductoId, Fecha)
 );
 
 CREATE TABLE IF NOT EXISTS "Demanda"
@@ -52,5 +52,5 @@ CREATE TABLE IF NOT EXISTS "Demanda"
   "ProductoId" INTEGER DEFAULT NULL REFERENCES "Producto" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
   "ConsumoPromedio" DECIMAL,
   "Fecha" DATE,
-  UNIQUE(LocalidadId, ProductoId)
+  UNIQUE(LocalidadId, ProductoId, Fecha)
 );
