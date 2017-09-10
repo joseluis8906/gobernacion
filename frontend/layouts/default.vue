@@ -52,7 +52,7 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
           { icon: 'person', text: 'Proveedor', to: '/proveedor' },
           { icon: 'local_shipping', text: 'Oferta', to: '/oferta' },
           { icon: 'shopping_cart', text: 'Demanda', to: '/demanda' },
-          //{ icon: 'assignment', text: 'Kardex', to: '/kardex' },
+          { icon: 'backup', text: 'Cargue Masivo', to: '/carguemasivo' },
         ],
         title: 'Oferta y Demanda de Productos Cesar'
       }

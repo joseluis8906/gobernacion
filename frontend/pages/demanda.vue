@@ -70,7 +70,7 @@ v-layout( align-center justify-center )
                   v-card-actions
                     v-btn( dark warning @click.native="Fecha=null" ) Limpiar
 
-            v-text-field( label="Consumo Promedio" v-model="ConsumoPromedio" dark )
+            v-text-field( label="Consumo Promedio (Kg)" v-model="ConsumoPromedio" dark )
 
 
       v-card-actions
