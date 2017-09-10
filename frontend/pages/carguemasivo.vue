@@ -67,8 +67,6 @@ export default {
     ConsumoPromedio: null,
     Fecha: null,
     ItemsTipo: [
-      {text: "Producto"},
-      {text: "Proveedor"},
       {text: "Oferta"},
       {text: "Demanda"}
     ],
