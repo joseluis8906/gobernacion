@@ -35,7 +35,7 @@ v-layout( align-center justify-center )
               autocomplete
               bottom )
 
-            upload-button( title="Buscar Archivo" :selectedCallback="ArchivoSeleccionado")
+            upload-button( title="Subir Archivo" :selectedCallback="ArchivoSeleccionado")
 
       v-card-actions
         v-spacer
