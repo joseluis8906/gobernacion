@@ -163,7 +163,7 @@ export default {
       if (this.Id === null) {
         this.Create();
       }else{
-        this.Update();veedor
+        this.Update();
       }
     },
     Create () {
@@ -249,10 +249,10 @@ export default {
         mutation: UPDATE_DEMANDA,
         variables: {
           Id: Demanda.Id,
-          LocalidadId: this.LocalidadId,
-          ProductoId: this.ProductoId,
-          ConsumoPromedio: this.ConsumoPromedio,
-          Fecha: this.Fecha
+          LocalidadId: Demanda.LocalidadId,
+          ProductoId: Demanda.ProductoId,
+          ConsumoPromedio: Demanda.ConsumoPromedio,
+          Fecha: Demanda.Fecha
         },
         loadingKey: 'loading',
         update: (store, { data: res }) => {
@@ -261,9 +261,9 @@ export default {
             var data = store.readQuery({
               query: DEMANDAS,
               variables: {
-                LocalidadId: res.CreateDemanda.LocalidadId,
-                ProductoId: res.CreateDemanda.ProductoId,
-                Fecha: res.CreateDemanda.Fecha
+                LocalidadId: res.UpdateDemanda.LocalidadId,
+                ProductoId: res.UpdateDemanda.ProductoId,
+                Fecha: res.UpdateDemanda.Fecha
               }
             })
 
@@ -279,9 +279,9 @@ export default {
             store.writeQuery({
               query: DEMANDAS,
               variables: {
-                LocalidadId: res.CreateDemanda.LocalidadId,
-                ProductoId: res.CreateDemanda.ProductoId,
-                Fecha: res.CreateDemanda.Fecha
+                LocalidadId: res.UpdateDemanda.LocalidadId,
+                ProductoId: res.UpdateDemanda.ProductoId,
+                Fecha: res.UpdateDemanda.Fecha
               },
               data: data
             })
@@ -295,9 +295,9 @@ export default {
             store.writeQuery({
               query: DEMANDAS,
               variables: {
-                LocalidadId: res.CreateDemanda.LocalidadId,
-                ProductoId: res.CreateDemanda.ProductoId,
-                Fecha: res.CreateDemanda.Fecha
+                LocalidadId: res.UpdateDemanda.LocalidadId,
+                ProductoId: res.UpdateDemanda.ProductoId,
+                Fecha: res.UpdateDemanda.Fecha
               },
               data: data
             })

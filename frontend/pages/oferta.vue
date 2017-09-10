@@ -70,11 +70,11 @@ v-layout( align-center justify-center )
                   v-card-actions
                     v-btn( dark warning @click.native="Fecha=null" ) Limpiar
 
-            v-text-field( label="Cantidad" v-model="Cantidad" dark )
+            v-text-field( label="Cantidad (Kg)" v-model="Cantidad" dark )
 
-            v-text-field( label="Embalaje" v-model="Embalaje" dark )
+            v-text-field( label="Embalaje (Kg)" v-model="Embalaje" dark )
 
-            v-text-field( label="Precio" v-model="Precio" dark )
+            v-text-field( label="Precio $" v-model="Precio" dark )
 
 
       v-card-actions
@@ -169,7 +169,7 @@ export default {
       if (this.Id === null) {
         this.Create();
       }else{
-        this.Update();veedor
+        this.Update();
       }
     },
     Create () {
@@ -261,12 +261,12 @@ export default {
         mutation: UPDATE_OFERTA,
         variables: {
           Id: Oferta.Id,
-          ProveedorId: this.ProveedorId,
-          ProductoId: this.ProductoId,
-          Cantidad: this.Cantidad,
-          Embalaje: this.Embalaje,
-          Precio: this.Precio,
-          Fecha: this.Fecha
+          ProveedorId: Oferta.ProveedorId,
+          ProductoId: Oferta.ProductoId,
+          Cantidad: Oferta.Cantidad,
+          Embalaje: Oferta.Embalaje,
+          Precio: Oferta.Precio,
+          Fecha: Oferta.Fecha
         },
         loadingKey: 'loading',
         update: (store, { data: res }) => {
@@ -275,9 +275,9 @@ export default {
             var data = store.readQuery({
               query: OFERTAS,
               variables: {
-                ProveedorId: res.CreateOferta.ProveedorId,
-                ProductoId: res.CreateOferta.ProductoId,
-                Fecha: res.CreateOferta.Fecha
+                ProveedorId: res.UpdateOferta.ProveedorId,
+                ProductoId: res.UpdateOferta.ProductoId,
+                Fecha: res.UpdateOferta.Fecha
               }
             })
 
@@ -295,9 +295,9 @@ export default {
             store.writeQuery({
               query: OFERTAS,
               variables: {
-                ProveedorId: res.CreateOferta.ProveedorId,
-                ProductoId: res.CreateOferta.ProductoId,
-                Fecha: res.CreateOferta.Fecha
+                ProveedorId: res.UpdateOferta.ProveedorId,
+                ProductoId: res.UpdateOferta.ProductoId,
+                Fecha: res.UpdateOferta.Fecha
               },
               data: data
             })
@@ -311,9 +311,9 @@ export default {
             store.writeQuery({
               query: OFERTAS,
               variables: {
-                ProveedorId: res.CreateOferta.ProveedorId,
-                ProductoId: res.CreateOferta.ProductoId,
-                Fecha: res.CreateOferta.Fecha
+                ProveedorId: res.UpdateOferta.ProveedorId,
+                ProductoId: res.UpdateOferta.ProductoId,
+                Fecha: res.UpdateOferta.Fecha
               },
               data: data
             })
@@ -364,7 +364,6 @@ export default {
           this.Precio = null
         }
       }
-
     }
   }
 };
