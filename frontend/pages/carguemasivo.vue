@@ -28,10 +28,8 @@ v-layout( align-center justify-center )
             v-select(
               v-bind:items="ItemsTipo"
               v-model="Tipo"
-              item-value="Id"
-              item-text="Nombre"
+              item-value="text"
               label="Tipo"
-              single-line
               autocomplete
               bottom )
 
@@ -68,7 +66,12 @@ export default {
     ProductoId: null,
     ConsumoPromedio: null,
     Fecha: null,
-    ItemsTipo: [],
+    ItemsTipo: [
+      {text: "Producto"},
+      {text: "Proveedor"},
+      {text: "Oferta"},
+      {text: "Demanda"}
+    ],
     ItemsLocalidad: [],
     ItemsProducto: [],
     menu1: false,

@@ -31,7 +31,6 @@ v-layout( align-center justify-center )
               item-value="Id"
               item-text="Nombre"
               label="Localidad"
-              single-line
               autocomplete
               bottom )
 
@@ -41,7 +40,6 @@ v-layout( align-center justify-center )
               item-value="Id"
               item-text="Nombre"
               label="Producto"
-              single-line
               autocomplete
               bottom )
 
