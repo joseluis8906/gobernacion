@@ -25,6 +25,24 @@ v-layout( align-center justify-center )
       v-card-text
         v-layout( row wrap)
           v-flex( xs12 )
+
+            v-label Formatos xlsx
+
+            br
+
+            v-chip( class="green white--text" )
+              v-avatar
+                v-icon assignment
+              a(href="/ModeloOferta.xlsx") Oferta
+
+            v-chip( class="green white--text" )
+              v-avatar
+                v-icon assignment
+              a(href="/ModeloDemanda.xlsx") Demanda
+
+            br
+            br
+
             v-select(
               v-bind:items="ItemsTipo"
               v-model="Tipo"
@@ -48,6 +66,7 @@ import CREATE_DEMANDA from '~/queries/CreateDemanda.gql'
 import UPDATE_DEMANDA from '~/queries/UpdateDemanda.gql'
 import LOCALIDADES from '~/queries/Localidades.gql'
 import PRODUCTOS from '~/queries/Productos.gql'
+import PROVEEDORES from '~/queries/Proveedores.gql'
 
 import UploadButton from '~/components/UploadButton'
 
@@ -59,20 +78,12 @@ export default {
       timeout: 6000,
       text: 'Cargando'
     },
-    Id: null,
     Tipo: null,
     Archivo: null,
-    LocalidadId: null,
-    ProductoId: null,
-    ConsumoPromedio: null,
-    Fecha: null,
     ItemsTipo: [
       {text: "Oferta"},
       {text: "Demanda"}
     ],
-    ItemsLocalidad: [],
-    ItemsProducto: [],
-    menu1: false,
     months: [
       'Enero',
       'Febrero',
@@ -86,7 +97,6 @@ export default {
       'Octubre',
       'Noviembre',
       'Diciembre'],
-    days: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
     loading: 0
   }),
   components: {
@@ -98,21 +108,6 @@ export default {
     }
   },
   apollo: {
-    Demandas: {
-      query: DEMANDAS,
-      variables () {
-        return {
-          LocalidadId: this.LocalidadId,
-          ProductoId: this.ProductoId,
-          Fecha: this.Fecha
-        }
-      },
-      loadingKey: 'loading',
-      update (data) {
-        //console.log(data)
-        this.LoadUi(data.Demandas)
-      }
-    },
     Localidades: {
       query: LOCALIDADES,
       loadingKey: 'loading',
@@ -129,190 +124,16 @@ export default {
         this.ItemsProducto = data.Productos
       }
     },
+    Proveedores: {
+      query: PROVEEDORES,
+      loadingKey: 'loading',
+      update (data) {
+        //console.log(data)
+        this.ItemsProveedor = data.Proveedores
+      }
+    },
   },
   methods: {
-    CreateOrUpdate () {
-      if (this.Id === null) {
-        this.Create();
-      }else{
-        this.Update();
-      }
-    },
-    Create () {
-      const Demanda = {
-        LocalidadId: this.LocalidadId,
-        ProductoId: this.ProductoId,
-        ConsumoPromedio: this.ConsumoPromedio,
-        Fecha: this.Fecha
-      };
-
-      this.Reset ();
-
-      this.$apollo.mutate ({
-        mutation: CREATE_DEMANDA,
-        variables: {
-          LocalidadId: Demanda.LocalidadId,
-          ProductoId: Demanda.ProductoId,
-          ConsumoPromedio: Demanda.ConsumoPromedio,
-          Fecha: Demanda.Fecha
-      },
-      loadingKey: 'loading',
-      update: (store, { data: res }) => {
-        //console.log(Ente);
-        try{
-          var data = store.readQuery({
-            query: DEMANDAS,
-            variables: {
-              LocalidadId: res.CreateDemanda.LocalidadId,
-              ProductoId: res.CreateDemanda.ProductoId,
-              Fecha: res.CreateDemanda.Fecha
-            }
-          })
-
-          data.Demandas.push(res.CreateDemanda)
-
-          store.writeQuery({
-            query: DEMANDAS,
-            variables: {
-              LocalidadId: res.CreateDemanda.LocalidadId,
-              ProductoId: res.CreateDemanda.ProductoId,
-              Fecha: res.CreateDemanda.Fecha
-            },
-            data: data
-          })
-
-        } catch (Err) {
-
-          var data = {Demandas: []}
-
-          data.Demandas.push(res.CreateDemanda)
-
-          store.writeQuery({
-            query: DEMANDAS,
-            variables: {
-              LocalidadId: res.CreateDemanda.LocalidadId,
-              ProductoId: res.CreateDemanda.ProductoId,
-              Fecha: res.CreateDemanda.Fecha
-            },
-            data: data
-          })
-
-        }
-
-      },
-      }).then( data => {
-        //console.log(data)
-      }).catch( Err => {
-        //console.log(Err)
-      })
-    },
-    Update () {
-      const Demanda = {
-        Id: this.Id,
-        LocalidadId: this.LocalidadId,
-        ProductoId: this.ProductoId,
-        ConsumoPromedio: this.ConsumoPromedio,
-        Fecha: this.Fecha
-      };
-
-      this.Reset ();
-
-      this.$apollo.mutate ({
-        mutation: UPDATE_DEMANDA,
-        variables: {
-          Id: Demanda.Id,
-          LocalidadId: Demanda.LocalidadId,
-          ProductoId: Demanda.ProductoId,
-          ConsumoPromedio: Demanda.ConsumoPromedio,
-          Fecha: Demanda.Fecha
-        },
-        loadingKey: 'loading',
-        update: (store, { data: res }) => {
-          //console.log(Ente);
-          try {
-            var data = store.readQuery({
-              query: DEMANDAS,
-              variables: {
-                LocalidadId: res.UpdateDemanda.LocalidadId,
-                ProductoId: res.UpdateDemanda.ProductoId,
-                Fecha: res.UpdateDemanda.Fecha
-              }
-            })
-
-            for (let i=0; i<data.Demandas.length; i++) {
-              if (data.Demandas[i].Id === res.UpdateDemanda.Id) {
-                data.Demandas[i].LocalidadId = res.UpdateDemanda.LocalidadId
-                data.Demandas[i].ProductoId = res.UpdateDemanda.ProductoId
-                data.Demandas[i].ConsumoPromedio = res.UpdateDemanda.ConsumoPromedio
-                data.Demandas[i].Fecha = res.UpdateDemanda.Fecha
-              }
-            }
-
-            store.writeQuery({
-              query: DEMANDAS,
-              variables: {
-                LocalidadId: res.UpdateDemanda.LocalidadId,
-                ProductoId: res.UpdateDemanda.ProductoId,
-                Fecha: res.UpdateDemanda.Fecha
-              },
-              data: data
-            })
-
-          } catch (Err) {
-
-            var data = {Demandas: []}
-
-            data.Demandas.push(res.UpdateDemanda)
-
-            store.writeQuery({
-              query: DEMANDAS,
-              variables: {
-                LocalidadId: res.UpdateDemanda.LocalidadId,
-                ProductoId: res.UpdateDemanda.ProductoId,
-                Fecha: res.UpdateDemanda.Fecha
-              },
-              data: data
-            })
-
-          }
-
-        },
-      }).then( data => {
-        //console.log(data)
-      }).catch( Err => {
-        //console.log(Err)
-      })
-    },
-    Reset () {
-      this.Id = null
-      this.LocalidadId = null
-      this.ProductoId = null
-      this.ConsumoPromedio = null
-      this.Fecha = null
-    },
-    LoadUi (Demandas) {
-      if( Demandas.length === 0 ) {
-        this.Id = null
-        this.ConsumoPromedio = null
-      }
-
-      for (let i=0; i<Demandas.length; i++) {
-        if (
-          this.LocalidadId === Demandas[i].LocalidadId
-          &&
-          this.ProductoId === Demandas[i].ProductoId
-          &&
-          this.Fecha === Demandas[i].Fecha
-        ) {
-          this.Id = Demandas[i].Id
-          this.ConsumoPromedio = Demandas[i].ConsumoPromedio
-          break
-        }else{
-          this.Id = null
-          this.ConsumoPromedio = null
-        }
-      }
-    },
     ArchivoSeleccionado (Archivo) {
       console.log(Archivo)
     }
@@ -329,4 +150,7 @@ h5.bold
 .alert-especial
   position absolute
 
+a
+  color: white !important
+  text-decoration none !important
 </style>
