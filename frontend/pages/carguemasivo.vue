@@ -12,7 +12,8 @@ v-layout( align-center justify-center )
     :vertical="snackbar.mode === 'vertical'"
     :top="true"
     v-model="loading" )
-      v-icon {{ snackbar.icon }} 
+      v-icon {{ snackbar.icon }}
+      |  
       h6(class="grey--text text--lighten-4 mb-0") {{ snackbar.text }}
 
 
