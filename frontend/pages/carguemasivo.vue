@@ -12,8 +12,9 @@ v-layout( align-center justify-center )
     :vertical="snackbar.mode === 'vertical'"
     :top="true"
     v-model="loading" )
+      v-icon {{ snackbar.icon }} 
       h6(class="grey--text text--lighten-4 mb-0") {{ snackbar.text }}
-      v-icon autorenew
+
 
   v-flex( xs12 mt-3 md8 lg6 )
     v-card
@@ -51,7 +52,7 @@ v-layout( align-center justify-center )
               autocomplete
               bottom )
 
-            upload-button( title="Subir Archivo" :selectedCallback="ArchivoSeleccionado")
+            upload-button( title="Subir Archivo" :selectedCallback="ArchivoSeleccionado" v-if="PermitirArchivo" )
 
       v-card-actions
         v-spacer
@@ -75,11 +76,13 @@ export default {
   data: () => ({
     snackbar: {
       context: 'secondary',
+      icon: 'autorenew',
       mode: '',
       timeout: 6000,
       text: 'Cargando'
     },
     Tipo: null,
+    PermitirArchivo: false,
     ItemsTipo: [
       {text: "Oferta"},
       {text: "Demanda"}
@@ -92,6 +95,17 @@ export default {
   beforeMount () {
     if (sessionStorage.getItem('x-access-token') === null || sessionStorage.getItem('x-access-token') === null) {
       this.$router.push('/')
+    }
+  },
+  watch: {
+    Tipo (Value) {
+      if (Value === 'Oferta' || Value === 'Demanda')
+      {
+        this.PermitirArchivo = true
+      }
+      else {
+        this.PermitirArchivo = false
+      }
     }
   },
   apollo: {
@@ -123,9 +137,10 @@ export default {
   methods: {
     ArchivoSeleccionado (Archivo) {
       var reader = new FileReader()
-      var ProcesarOfertaCallback = this.ProcesarOferta
-      var ProcesarDemandaCallback = this.ProcesarDemanda
-      reader.onload = function(e) {
+      reader.onload = this.LoadArchivo.bind(this)
+      reader.readAsBinaryString(Archivo)
+    },
+    LoadArchivo (e) {
         var data = e.target.result
         var LibroDeTrabajo = XLSX.read(data, {type: 'binary'})
         var NombrePrimeraHoja = LibroDeTrabajo.SheetNames[0]
@@ -136,14 +151,18 @@ export default {
         var CeldaSeleccionada = HojaDeTrabajo[DireccionDeCelda]
 
         var ValorSeleccionado = (CeldaSeleccionada ? CeldaSeleccionada.v : undefined)
-        if (ValorSeleccionado === 'Oferta') {
-          ProcesarOfertaCallback(HojaDeTrabajo)
+        if (ValorSeleccionado === 'Oferta' && this.Tipo === 'Oferta') {
+          this.ProcesarOferta (HojaDeTrabajo)
         }
-        else if (ValorSeleccionado === 'Demanda') {
-          ProcesarDemandaCallback(HojaDeTrabajo)
+        else if (ValorSeleccionado === 'Demanda' && this.Tipo === 'Demanda') {
+          this.ProcesarDemanda (HojaDeTrabajo)
         }
-      }
-      reader.readAsBinaryString(Archivo);
+        else {
+          this.snackbar.text = "Error: Formato incompatible"
+          this.snackbar.context = "error"
+          this.snackbar.icon = 'error_outline'
+          this.loading = 1
+        }
     },
     ProcesarOferta (HojaDeTrabajo) {
       var ListaDeOferta = []
@@ -178,7 +197,7 @@ export default {
           Fecha: HojaDeTrabajo[`C${i}`] ? HojaDeTrabajo[`C${i}`].v : null,
           ConsumoPromedio: HojaDeTrabajo[`D${i}`] ? HojaDeTrabajo[`D${i}`].v : null
         }
-        if (NuevaDemanda.CodigoProveedor !== null) {
+        if (NuevaDemanda.CodigoLocalidad !== null) {
           ListaDeDemanda.push(NuevaDemanda)
         } else {
           Continuar = false
