@@ -146,10 +146,49 @@ export default {
       reader.readAsBinaryString(Archivo);
     },
     ProcesarOferta (HojaDeTrabajo) {
-      
+      var ListaDeOferta = []
+      var i = 3
+      var Continuar = true
+      while (Continuar) {
+        var NuevaOferta = {
+          CodigoProveedor: HojaDeTrabajo[`A${i}`] ? HojaDeTrabajo[`A${i}`].v : null,
+          CodigoProducto: HojaDeTrabajo[`B${i}`] ? HojaDeTrabajo[`B${i}`].v : null,
+          Fecha: HojaDeTrabajo[`C${i}`] ? HojaDeTrabajo[`C${i}`].v : null,
+          Cantidad: HojaDeTrabajo[`D${i}`] ? HojaDeTrabajo[`D${i}`].v : null,
+          Embalaje: HojaDeTrabajo[`E${i}`] ? HojaDeTrabajo[`E${i}`].v : null,
+          Precio: HojaDeTrabajo[`F${i}`] ? HojaDeTrabajo[`F${i}`].v : null,
+        }
+        if (NuevaOferta.CodigoProducto !== null) {
+          ListaDeOferta.push(NuevaOferta)
+        } else {
+          Continuar = false
+        }
+        i++
+      }
+      console.log(ListaDeOferta)
     },
     ProcesarDemanda (HojaDeTrabajo) {
-
+      var ListaDeDemanda = []
+      var i = 3
+      var Continuar = true
+      while (Continuar) {
+        var NuevaDemanda = {
+          CodigoLocalidad: HojaDeTrabajo[`A${i}`] ? HojaDeTrabajo[`A${i}`].v : null,
+          CodigoProducto: HojaDeTrabajo[`B${i}`] ? HojaDeTrabajo[`B${i}`].v : null,
+          Fecha: HojaDeTrabajo[`C${i}`] ? HojaDeTrabajo[`C${i}`].v : null,
+          ConsumoPromedio: HojaDeTrabajo[`D${i}`] ? HojaDeTrabajo[`D${i}`].v : null
+        }
+        if (NuevaDemanda.CodigoProveedor !== null) {
+          ListaDeDemanda.push(NuevaDemanda)
+        } else {
+          Continuar = false
+        }
+        i++
+      }
+      console.log(ListaDeDemanda)
+    },
+    Reset () {
+      this.Tipo = null
     }
   }
 };
