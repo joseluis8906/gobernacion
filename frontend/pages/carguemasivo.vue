@@ -12,8 +12,7 @@ v-layout( align-center justify-center )
     :vertical="snackbar.mode === 'vertical'"
     :top="true"
     v-model="loading" )
-      v-icon {{ snackbar.icon }}
-      |  
+      v-icon(style="margin-right: 10px") {{ snackbar.icon }}
       h6(class="grey--text text--lighten-4 mb-0") {{ snackbar.text }}
 
 
@@ -159,7 +158,7 @@ export default {
           this.ProcesarDemanda (HojaDeTrabajo)
         }
         else {
-          this.snackbar.text = "Error: Formato incompatible"
+          this.snackbar.text = "Error: Formato o Tipo incompatible"
           this.snackbar.context = "error"
           this.snackbar.icon = 'error_outline'
           this.loading = 1
