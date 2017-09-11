@@ -26,7 +26,7 @@ v-layout( align-center justify-center )
         v-layout( row wrap)
           v-flex( xs12 )
 
-            v-label Formatos xlsx
+            label Formatos xlsx
 
             br
 
@@ -67,6 +67,7 @@ import UPDATE_DEMANDA from '~/queries/UpdateDemanda.gql'
 import LOCALIDADES from '~/queries/Localidades.gql'
 import PRODUCTOS from '~/queries/Productos.gql'
 import PROVEEDORES from '~/queries/Proveedores.gql'
+import XLSX from 'xlsx'
 
 import UploadButton from '~/components/UploadButton'
 
@@ -79,24 +80,10 @@ export default {
       text: 'Cargando'
     },
     Tipo: null,
-    Archivo: null,
     ItemsTipo: [
       {text: "Oferta"},
       {text: "Demanda"}
     ],
-    months: [
-      'Enero',
-      'Febrero',
-      'Marzo',
-      'Abril',
-      'Mayo',
-      'Junio',
-      'Julio',
-      'Agosto',
-      'Septiembre',
-      'Octubre',
-      'Noviembre',
-      'Diciembre'],
     loading: 0
   }),
   components: {
@@ -135,7 +122,34 @@ export default {
   },
   methods: {
     ArchivoSeleccionado (Archivo) {
-      console.log(Archivo)
+      var reader = new FileReader()
+      var ProcesarOfertaCallback = this.ProcesarOferta
+      var ProcesarDemandaCallback = this.ProcesarDemanda
+      reader.onload = function(e) {
+        var data = e.target.result
+        var LibroDeTrabajo = XLSX.read(data, {type: 'binary'})
+        var NombrePrimeraHoja = LibroDeTrabajo.SheetNames[0]
+
+        var HojaDeTrabajo = LibroDeTrabajo.Sheets[NombrePrimeraHoja]
+        var DireccionDeCelda = 'A1'
+
+        var CeldaSeleccionada = HojaDeTrabajo[DireccionDeCelda]
+
+        var ValorSeleccionado = (CeldaSeleccionada ? CeldaSeleccionada.v : undefined)
+        if (ValorSeleccionado === 'Oferta') {
+          ProcesarOfertaCallback(HojaDeTrabajo)
+        }
+        else if (ValorSeleccionado === 'Demanda') {
+          ProcesarDemandaCallback(HojaDeTrabajo)
+        }
+      }
+      reader.readAsBinaryString(Archivo);
+    },
+    ProcesarOferta (HojaDeTrabajo) {
+      
+    },
+    ProcesarDemanda (HojaDeTrabajo) {
+
     }
   }
 };
