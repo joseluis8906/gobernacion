@@ -350,9 +350,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="795.05891"
-     inkscape:cy="380.72305"
+     inkscape:zoom="1.979899"
+     inkscape:cx="658.81629"
+     inkscape:cy="606.27943"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -370,7 +370,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -632,7 +632,7 @@
          y="397.19028"
          x="588.97571"
          id="tspan4202"
-         sodipodi:role="line">Del César</tspan></text>
+         sodipodi:role="line">Del Cesar</tspan></text>
     <path
        style="fill:#ff6600;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
        d="m 0,910.25083 0,142.11137 1280,0 0,-142.11137 -520,0 -120,60 -122.5,-60 z"
