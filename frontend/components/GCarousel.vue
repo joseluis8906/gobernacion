@@ -13,23 +13,48 @@ v-container(fluid pt-1 pb-0 pl-0 pr-0 id="inicio")
 
 <script>
 export default {
-data () {
-  return {
-    items: [
-      {
-        style: {'background-image': "url('/banner.png')"}
-      },
-    ],
-    swiperOption: {
-      autoplay: 5000,
-      autoplayDisableOnInteraction: false,
-      speed: 1000,
-      loop: true,
-      effect: 'fade'
+  data () {
+    return {
+      items: [
+        {
+          style: {'background-image': "url('/banner.png')"}
+        },
+      ],
+      swiperOption: {
+        autoplay: 5000,
+        autoplayDisableOnInteraction: false,
+        speed: 1000,
+        loop: true,
+        effect: 'fade'
+      }
+    }
+  },
+  methods: {
+    handleResize () {
+      if (process.BROWSER_BUILD) {
+        let height = ((window.screen.width * 59.4) / 100);
+        this.items[0].style = {
+          'background-image': "url('/banner.png')",
+          'min-height': height + "px"
+        };
+        //console.log(this.items[0])
+      }
+    }
+  },
+  created () {
+    if (process.BROWSER_BUILD) {
+      window.addEventListener('resize', this.handleResize)
+      window.addEventListener('load', this.handleResize)
+    }
+  },
+  destroyed () {
+    if (process.BROWSER_BUILD) {
+      window.removeEventListener('resize', this.handleResize)
+      window.removeEventListener('load', this.handleResize)
     }
   }
 }
-}
+
 </script>
 
 <style lang="stylus" scoped>
