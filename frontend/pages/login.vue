@@ -5,23 +5,23 @@
       v-card(class="mt-5 pt-3 pb-3 pl-3 pr-3")
         v-card-text
           div(class="text-xs-center")
-            img(src="~assets/logo.gis.png" alt="logo.gis")
-            
-          h6(class="pt-4 grey--text text--lighten-4") Inicie Sessión
-          p(class="pb-4") Con su cuenta GIS
-          
+            img(src="~assets/logo.gobernacion.png" alt="logo.gis" class="logo")
+
+          h6(class="pt-4 grey--text text--lighten-4") Gobernación Del Cesar
+          p(class="pb-4") Inicio de Sessión
+
           v-text-field(label="Nombre de Usuario"  v-model="UserName" class="pb-3")
           v-text-field(label="Contraseña" v-model="Password" type="password")
-            
-                
+
+
         v-card-actions
           v-btn(primary dark  class="mb-3" @click.native.stop="login") Continuar
-          
+
 </template>
 
 <script>
   import axios from 'axios'
-  
+
   export default {
     data () {
       return {
@@ -46,3 +46,8 @@
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+.logo
+  width 64px
+</style>

@@ -6,8 +6,8 @@ v-container(fluid pt-1 pb-0 pl-0 pr-0 id="inicio")
          div(class="swiper-wrapper")
            div( class="swiper-slide" v-for="(item, i) in items" v-bind:key="i" )
              div(class="g-slide" :style="item.style")
-                v-btn(class="especial-btn warning grey--text text--darken-3") Visitanos
-                  v-icon(right) record_voice_over
+                v-btn(class="especial-btn orange white--text") Visitanos
+                  v-icon(right dark) record_voice_over
 
 </template>
 
