@@ -547,7 +547,7 @@ var PublicQuery = new GraphQLObjectType({
 });
 
 //public schema
-var PublicSchema = var Schema = new GraphQLSchema({
+var PublicSchema = new GraphQLSchema({
   query: PublicQuery
 });
 
