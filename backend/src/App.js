@@ -55,8 +55,9 @@ app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+//graphql servers
 app.use('/public/graphql', graphqlExpress({ schema: PublicSchema }));
-app.use('/public/graphiql', graphiqlExpress({endpointURL: '/plubic/graphql'}));
+app.use('/public/graphiql', graphiqlExpress({endpointURL: '/public/graphql'}));
 
 app.use('/private/graphql', graphqlExpress({ schema: Schema }));
 app.use('/private/graphiql', graphiqlExpress({endpointURL: '/private/graphql'}));

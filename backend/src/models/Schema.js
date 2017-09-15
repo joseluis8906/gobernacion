@@ -529,7 +529,8 @@ var Mutation = new GraphQLObjectType({
   }
 });
 
-//Query
+
+//Public Query
 var PublicQuery = new GraphQLObjectType({
   name: "PublicQuery",
   description: "Object representation of public Query",
@@ -542,9 +543,38 @@ var PublicQuery = new GraphQLObjectType({
           return "Public world";
         }
       },
+      Ofertas: {
+        type: new GraphQLList(Oferta),
+        args: {
+          Id: {type: GraphQLInt},
+          ProveedorId: {type: GraphQLInt},
+          ProductoId: {type: GraphQLInt},
+          Cantidad: {type: GraphQLFloat},
+          Embalaje: {type: GraphQLFloat},
+          Precio: {type: GraphQLFloat},
+          Fecha: {type: GraphQLString}
+        },
+        resolve(root, args) {
+          return Db.models.Oferta.findAll({where: args});
+        }
+      },
+      Demandas: {
+        type: new GraphQLList(Demanda),
+        args: {
+          Id: {type: GraphQLInt},
+          LocalidadId: {type: GraphQLInt},
+          ProductoId: {type: GraphQLInt},
+          ConsumoPromedio: {type: GraphQLFloat},
+          Fecha: {type: GraphQLString}
+        },
+        resolve(root, args) {
+          return Db.models.Demanda.findAll({where: args});
+        }
+      }
     }
   }
 });
+
 
 //public schema
 var PublicSchema = new GraphQLSchema({
@@ -557,4 +587,4 @@ var Schema = new GraphQLSchema({
   mutation: Mutation
 });
 
-export default {Schema: Schema, PublicQuery: PublicQuery};
+export {Schema, PublicSchema};
