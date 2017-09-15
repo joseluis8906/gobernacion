@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import favicon from 'serve-favicon';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express'
-import Schema from './models/Schema';
+import { Schema, PublicSchema } from './models/Schema';
 import Db from './models/Db'
 import Jwt from 'jsonwebtoken';
 import Bcrypt from 'bcrypt';

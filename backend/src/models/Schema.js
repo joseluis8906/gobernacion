@@ -529,6 +529,27 @@ var Mutation = new GraphQLObjectType({
   }
 });
 
+//Query
+var PublicQuery = new GraphQLObjectType({
+  name: "PublicQuery",
+  description: "Object representation of public Query",
+  fields: () => {
+    return {
+      Hello: {
+        type: GraphQLString,
+        args: {},
+        resolve(root, args) {
+          return "Public world";
+        }
+      },
+    }
+  }
+});
+
+//public schema
+var PublicSchema = var Schema = new GraphQLSchema({
+  query: PublicQuery
+});
 
 //schema
 var Schema = new GraphQLSchema({
@@ -536,4 +557,4 @@ var Schema = new GraphQLSchema({
   mutation: Mutation
 });
 
-export default Schema;
+export default {Schema: Schema, PublicQuery: PublicQuery};
