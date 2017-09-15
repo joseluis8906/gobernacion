@@ -46,7 +46,7 @@ export default {
   head () {
     return {
       meta: [{name: "viewport", content: "width=device-width, initial-scale=1, maximun-scale=1, user-scalable=no, minimal-ui"}],
-      title: "Gis"
+      title: "Gobernación del César"
     }
   }
 }

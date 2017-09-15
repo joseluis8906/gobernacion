@@ -10,7 +10,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
-      { rel: 'icon', type: 'image/png', href: '/logo.gis.favicon.png' },
+      { rel: 'icon', type: 'image/png', href: '/logo.gobernacion.favicon.png?0.1' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Work+Sans:200'},
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Archivo+Black'},
@@ -52,5 +52,5 @@ module.exports = {
     'swiper/dist/css/swiper.css',
     { src: '~assets/style/app.styl', lang: 'styl' }
   ],
-  
+
 }

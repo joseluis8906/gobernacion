@@ -1,9 +1,14 @@
 <template lang="pug">
 doctype html
 v-app(light)
+  v-toolbar(dense dark xs12)
+    v-icon(dark class="hidden-sm-and-down") desktop_mac
+    v-icon(dark class="hidden-md-and-up") phone_iphone
+    v-spacer
+    v-btn(outline dark small nuxt link to="/login") Login
   main
     nuxt
-  v-footer(fluid style="height:auto")
+  v-footer(fluid style="height:auto" class="dark pt-5 pb-5" )
     v-spacer
       v-layout(row wrap)
         v-flex(xs12 md6 offset-md3)
@@ -15,7 +20,7 @@ v-app(light)
           div(class="text-xs-center g-footer")
             | Icons made by <a href="http://www.freepik.com" title="Freepik" class="orange--text text--darken-4"> Freepik </a> from
             | <a href="http://www.flaticon.com" title="Flaticon" class="orange--text text--darken-4"> www.flaticon.com </a>
-            | is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" class="orange--text text--darken-4"> CC 3.0 BY </a>
+            | is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" class="orange--text text--darken-4"> CC 3.0 </a>
 </template>
 
 <script>
@@ -23,9 +28,6 @@ export default {
   data () {
     return {
       fixed: false,
-      items: [
-        { icon: 'bubble_chart', title: 'Inspire' }
-      ],
       title: 'Vuetify.js',
     }
   },
@@ -54,6 +56,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.dark
+  background-color rgba(0,0,0,0.85)
+  color white
 
 a
   margin none
