@@ -89,6 +89,7 @@ import UPDATE_OFERTA from '~/queries/UpdateOferta.gql'
 import PROVEEDORES from '~/queries/Proveedores.gql'
 import PRODUCTOS from '~/queries/Productos.gql'
 
+import VMoney from '~/components/MonetaryInput.vue'
 
 export default {
   data: () => ({
@@ -363,6 +364,9 @@ export default {
         }
       }
     }
+  },
+  components: {
+    VMoney
   }
 };
 
