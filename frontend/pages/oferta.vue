@@ -72,7 +72,7 @@ v-layout( align-center justify-center )
 
             v-text-field( label="Embalaje (Kg)" v-model="Embalaje" dark )
 
-            v-text-field( label="Precio $" v-model="Precio" dark )
+            v-money(label="Precio" v-model="Precio" maskType="currency")
 
 
       v-card-actions
