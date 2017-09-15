@@ -12,12 +12,10 @@ v-app(light)
             br
             span Todos los derechos reservados.
         v-flex(xs12 md6 offset-md3 pb-3)
-          div(class="text-xs-center g-footer") Icons made by
-            a(href="http://www.freepik.com" title="Freepik" class="orange--text text--darken-4") Freepik
-            span from
-            a(href="http://www.flaticon.com" title="Flaticon" class="orange--text text--darken-4") www.flaticon.com
-            span is licensed by
-            a(href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" class="orange--text text--darken-4") CC 3.0 BY
+          div(class="text-xs-center g-footer")
+            | Icons made by <a href="http://www.freepik.com" title="Freepik" class="orange--text text--darken-4"> Freepik </a> from
+            | <a href="http://www.flaticon.com" title="Flaticon" class="orange--text text--darken-4"> www.flaticon.com </a>
+            | is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank" class="orange--text text--darken-4"> CC 3.0 BY </a>
 </template>
 
 <script>
