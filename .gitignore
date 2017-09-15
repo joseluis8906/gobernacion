@@ -3,4 +3,4 @@ backend/db/Db.sqlite
 backend/dist
 frontend/node_modules
 frontend/.nuxt
-proxy/
+proxy/dist
