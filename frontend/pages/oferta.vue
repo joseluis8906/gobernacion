@@ -26,6 +26,15 @@ v-layout( align-center justify-center )
         v-layout( row wrap)
           v-flex( xs12 )
             v-select(
+              v-bind:items="ItemsLocalidad"
+              v-model="LocalidadId"
+              item-value="Id"
+              item-text="Nombre"
+              label="Localidad"
+              autocomplete
+              bottom )
+
+            v-select(
               v-bind:items="ItemsProveedor"
               v-model="ProveedorId"
               item-value="Id"
@@ -88,6 +97,7 @@ import CREATE_OFERTA from '~/queries/CreateOferta.gql'
 import UPDATE_OFERTA from '~/queries/UpdateOferta.gql'
 import PROVEEDORES from '~/queries/Proveedores.gql'
 import PRODUCTOS from '~/queries/Productos.gql'
+import LOCALIDADES from '~/queries/Localidades.gql'
 
 import VMoney from '~/components/MonetaryInput.vue'
 
@@ -102,6 +112,7 @@ export default {
     Id: null,
     ProveedorId: null,
     ProductoId: null,
+    LocalidadId: null,
     Cantidad: null,
     Embalaje: null,
     Precio: null,
@@ -137,6 +148,7 @@ export default {
         return {
           ProveedorId: this.ProveedorId,
           ProductoId: this.ProductoId,
+          LocalidadId: this.LocalidadId,
           Fecha: this.Fecha
         }
       },
@@ -162,6 +174,14 @@ export default {
         this.ItemsProducto = data.Productos
       }
     },
+    Localidades: {
+      query: LOCALIDADES,
+      loadingKey: 'loading',
+      update (data) {
+        //console.log(data)
+        this.ItemsLocalidad = data.Localidades
+      }
+    },
   },
   methods: {
     CreateOrUpdate () {
@@ -175,6 +195,7 @@ export default {
       const Oferta = {
         ProveedorId: this.ProveedorId,
         ProductoId: this.ProductoId,
+        LocalidadId: this.LocalidadId,
         Cantidad: this.Cantidad,
         Embalaje: this.Embalaje,
         Precio: this.Precio,
@@ -188,6 +209,7 @@ export default {
         variables: {
           ProveedorId: Oferta.ProveedorId,
           ProductoId: Oferta.ProductoId,
+          LocalidadId: Oferta.LocalidadId,
           Cantidad: Oferta.Cantidad,
           Embalaje: Oferta.Embalaje,
           Precio: Oferta.Precio,
@@ -202,6 +224,7 @@ export default {
             variables: {
               ProveedorId: res.CreateOferta.ProveedorId,
               ProductoId: res.CreateOferta.ProductoId,
+              LocalidadId: res.CreateOferta.LocalidadId,
               Fecha: res.CreateOferta.Fecha
             }
           })
@@ -213,6 +236,7 @@ export default {
             variables: {
               ProveedorId: res.CreateOferta.ProveedorId,
               ProductoId: res.CreateOferta.ProductoId,
+              LocalidadId: res.CreateOferta.LocalidadId,
               Fecha: res.CreateOferta.Fecha
             },
             data: data
@@ -229,6 +253,7 @@ export default {
             variables: {
               ProveedorId: res.CreateOferta.ProveedorId,
               ProductoId: res.CreateOferta.ProductoId,
+              LocalidadId: res.CreateOferta.LocalidadId,
               Fecha: res.CreateOferta.Fecha
             },
             data: data
@@ -248,6 +273,7 @@ export default {
         Id: this.Id,
         ProveedorId: this.ProveedorId,
         ProductoId: this.ProductoId,
+        LocalidadId: this.LocalidadId,
         Cantidad: this.Cantidad,
         Embalaje: this.Embalaje,
         Precio: this.Precio,
@@ -262,6 +288,7 @@ export default {
           Id: Oferta.Id,
           ProveedorId: Oferta.ProveedorId,
           ProductoId: Oferta.ProductoId,
+          LocalidadId: Oferta.LocalidadId,
           Cantidad: Oferta.Cantidad,
           Embalaje: Oferta.Embalaje,
           Precio: Oferta.Precio,
@@ -276,6 +303,7 @@ export default {
               variables: {
                 ProveedorId: res.UpdateOferta.ProveedorId,
                 ProductoId: res.UpdateOferta.ProductoId,
+                LocalidadId: res.UpdateOferta.LocalidadId,
                 Fecha: res.UpdateOferta.Fecha
               }
             })
@@ -284,6 +312,7 @@ export default {
               if (data.Ofertas[i].Id === res.UpdateOferta.Id) {
                 data.Ofertas[i].ProveedorId = res.UpdateOferta.ProveedorId
                 data.Ofertas[i].ProductoId = res.UpdateOferta.ProductoId
+                data.Ofertas[i].LocalidadId = res.UpdateOferta.LocalidadId
                 data.Ofertas[i].Cantidad = res.UpdateOferta.Cantidad
                 data.Ofertas[i].Embalaje = res.UpdateOferta.Embalaje
                 data.Ofertas[i].Precio = res.UpdateOferta.Precio
@@ -296,6 +325,7 @@ export default {
               variables: {
                 ProveedorId: res.UpdateOferta.ProveedorId,
                 ProductoId: res.UpdateOferta.ProductoId,
+                LocalidadId: res.UpdateOferta.LocalidadId,
                 Fecha: res.UpdateOferta.Fecha
               },
               data: data
@@ -312,6 +342,7 @@ export default {
               variables: {
                 ProveedorId: res.UpdateOferta.ProveedorId,
                 ProductoId: res.UpdateOferta.ProductoId,
+                LocalidadId: res.UpdateOferta.LocalidadId,
                 Fecha: res.UpdateOferta.Fecha
               },
               data: data
@@ -330,6 +361,7 @@ export default {
       this.Id = null
       this.ProveedorId = null
       this.ProductoId = null
+      this.LocalidadId = null
       this.Cantidad = null
       this.Embalaje = null
       this.Precio = null
@@ -348,6 +380,8 @@ export default {
           this.ProveedorId === Ofertas[i].ProveedorId
           &&
           this.ProductoId === Ofertas[i].ProductoId
+          &&
+          this.LocalidadId === Ofertas[i].LocalidadId
           &&
           this.Fecha === Ofertas[i].Fecha
         ) {

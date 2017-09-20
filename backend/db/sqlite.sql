@@ -38,11 +38,12 @@ CREATE TABLE IF NOT EXISTS "Oferta"
   "Id" INTEGER PRIMARY KEY,
   "ProveedorId" INTEGER DEFAULT NULL REFERENCES "Proveedor" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
   "ProductoId" INTEGER DEFAULT NULL REFERENCES "Producto" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
+  "LocalidadId" INTEGER DEFAULT NULL REFERENCES "Localidad" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
   "Cantidad" DECIMAL,
   "Embalaje" DECIMAL,
   "Precio" DECIMAL,
   "Fecha" DATE,
-  UNIQUE(ProveedorId, ProductoId, Fecha)
+  UNIQUE("ProveedorId", "ProductoId", "LocalidadId", "Fecha")
 );
 
 CREATE TABLE IF NOT EXISTS "Demanda"
@@ -52,5 +53,5 @@ CREATE TABLE IF NOT EXISTS "Demanda"
   "ProductoId" INTEGER DEFAULT NULL REFERENCES "Producto" ("Id") ON UPDATE CASCADE ON DELETE SET DEFAULT,
   "ConsumoPromedio" DECIMAL,
   "Fecha" DATE,
-  UNIQUE(LocalidadId, ProductoId, Fecha)
+  UNIQUE("LocalidadId", "ProductoId", "Fecha")
 );

@@ -138,6 +138,12 @@ var Oferta = new GraphQLObjectType({
           return Oferta.ProductoId;
         }
       },
+      LocalidadId: {
+        type: GraphQLInt,
+        resolve(Oferta) {
+          return Oferta.LocalidadId;
+        }
+      },
       Cantidad: {
         type: GraphQLFloat,
         resolve(Oferta) {
@@ -172,6 +178,12 @@ var Oferta = new GraphQLObjectType({
         type: Producto,
         resolve(Oferta) {
           return Oferta.getProducto();
+        }
+      },
+      Localidad: {
+        type: Localidad,
+        resolve(Oferta) {
+          return Oferta.getLocalidad();
         }
       }
     };
@@ -287,6 +299,7 @@ var Query = new GraphQLObjectType({
           Id: {type: GraphQLInt},
           ProveedorId: {type: GraphQLInt},
           ProductoId: {type: GraphQLInt},
+          LocalidadId: {type: GraphQLInt},
           Cantidad: {type: GraphQLFloat},
           Embalaje: {type: GraphQLFloat},
           Precio: {type: GraphQLFloat},
@@ -440,6 +453,7 @@ var Mutation = new GraphQLObjectType({
         args: {
           ProveedorId: {type: GraphQLInt},
           ProductoId: {type: GraphQLInt},
+          LocalidadId: {type: GraphQLInt},
           Cantidad: {type: GraphQLFloat},
           Embalaje: {type: GraphQLFloat},
           Precio: {type: GraphQLFloat},
@@ -449,6 +463,7 @@ var Mutation = new GraphQLObjectType({
           return Db.models.Oferta.create({
             ProveedorId: args.ProveedorId,
             ProductoId: args.ProductoId,
+            LocalidadId: args.LocalidadId,
             Cantidad: args.Cantidad,
             Embalaje: args.Embalaje,
             Precio: args.Precio,
@@ -462,6 +477,7 @@ var Mutation = new GraphQLObjectType({
           Id: {type: GraphQLInt},
           ProveedorId: {type: GraphQLInt},
           ProductoId: {type: GraphQLInt},
+          LocalidadId: {type: GraphQLInt},
           Cantidad: {type: GraphQLFloat},
           Embalaje: {type: GraphQLFloat},
           Precio: {type: GraphQLFloat},
@@ -474,6 +490,7 @@ var Mutation = new GraphQLObjectType({
             if (R !== null) {
               R.ProveedorId = args.ProveedorId;
               R.ProductoId = args.ProductoId;
+              R.LocalidadId = args.LocalidadId;
               R.Cantidad = args.Cantidad;
               R.Embalaje = args.Embalaje;
               R.Precio = args.Precio;
@@ -549,6 +566,7 @@ var PublicQuery = new GraphQLObjectType({
           Id: {type: GraphQLInt},
           ProveedorId: {type: GraphQLInt},
           ProductoId: {type: GraphQLInt},
+          LocalidadId: {type: GraphQLInt},
           Cantidad: {type: GraphQLFloat},
           Embalaje: {type: GraphQLFloat},
           Precio: {type: GraphQLFloat},

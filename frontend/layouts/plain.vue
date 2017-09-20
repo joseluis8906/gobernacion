@@ -6,7 +6,7 @@ v-app(id="sandbox" :dark="dark" :light="!dark" standalone)
       nuxt
 
   v-footer(fixed)
-    <span> © {{ new Date().getFullYear() }} </span> Julio Cesar Caicedo Santos & Jose Luis Cáceres Escudero
+    <span> © {{ new Date().getFullYear() }} </span> Julio C. Caicedo S. & Jose L. Cáceres E.
 
 </template>
 

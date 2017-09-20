@@ -2,6 +2,7 @@ query Ofertas (
   $Id: Int,
   $ProveedorId: Int,
   $ProductoId: Int,
+  $LocalidadId: Int,
   $Cantidad: Float,
   $Embalaje: Float,
   $Precio: Float,
@@ -11,6 +12,7 @@ query Ofertas (
     Id: $Id,
     ProveedorId: $ProveedorId,
     ProductoId: $ProductoId,
+    LocalidadId: $LocalidadId,
     Cantidad: $Cantidad,
     Embalaje: $Embalaje,
     Precio: $Precio,
@@ -19,6 +21,7 @@ query Ofertas (
     Id
     ProveedorId
     ProductoId
+    LocalidadId
     Cantidad
     Embalaje
     Precio

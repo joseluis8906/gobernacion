@@ -13,7 +13,7 @@ v-app(light)
       v-layout(row wrap)
         v-flex(xs12 md6 offset-md3)
           div(class="text-xs-center g-footer")  Copyright ©  {{ new Date().getFullYear() }}
-            span(class="orange--text text--darken-4") Julio Cesar Caicedo Santos & Jose Luis Cáceres Escudero
+            span(class="orange--text text--darken-4") Julio C. Caicedo S. & Jose L. Cáceres E.
             br
             span Todos los derechos reservados.
         v-flex(xs12 md6 offset-md3 pb-3)

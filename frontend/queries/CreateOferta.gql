@@ -1,6 +1,7 @@
 mutation CreateOferta (
   $ProveedorId: Int,
   $ProductoId: Int,
+  $LocalidadId: Int,
   $Cantidad: Float,
   $Embalaje: Float,
   $Precio: Float,
@@ -9,6 +10,7 @@ mutation CreateOferta (
   CreateOferta (
     ProveedorId: $ProveedorId,
     ProductoId: $ProductoId,
+    LocalidadId: $LocalidadId,
     Cantidad: $Cantidad,
     Embalaje: $Embalaje,
     Precio: $Precio,
@@ -17,6 +19,7 @@ mutation CreateOferta (
     Id
     ProveedorId
     ProductoId
+    LocalidadId
     Cantidad
     Embalaje
     Precio

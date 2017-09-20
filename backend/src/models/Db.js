@@ -63,6 +63,7 @@ const Oferta = Db.define('Oferta', {
   Id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
   ProveedorId: {type: Sequelize.INTEGER, references: {model: Proveedor, key: 'Id'}},
   ProductoId: {type: Sequelize.INTEGER, references: {model: Producto, key: 'Id'}},
+  LocalidadId: {type: Sequelize.INTEGER, references: {model: Localidad, key: 'Id'}},
   Cantidad: Sequelize.DECIMAL,
   Embalaje: Sequelize.DECIMAL,
   Precio: Sequelize.DECIMAL,
@@ -78,6 +79,9 @@ Proveedor.hasMany(Oferta);
 
 Oferta.belongsTo(Producto);
 Producto.hasMany(Oferta);
+
+Oferta.belongsTo(Localidad);
+Localidad.hasMany(Oferta);
 
 
 //Demanda
