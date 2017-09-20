@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       fixed: false,
-      title: 'Vuetify.js',
+      title: 'Gobernación del Cesar',
     }
   },
   methods: {
